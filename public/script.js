@@ -63,7 +63,7 @@ function draw() {
   for (const id in players) {
     const player = players[id];
     fill(player.color);
-    rect(player.x, player.y, 20, 20);
+    ellipse(player.x, player.y, 20, 20);
   }
 }
 
