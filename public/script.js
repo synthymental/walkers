@@ -3,7 +3,7 @@ let playerId;
 let players = {};
 
 let velocity = { x: 0, y: 0 };  // Вектор скорости игрока
-let speed = 10;  // Скорость перемещения игрока
+let charSpeed = 5;  // Скорость перемещения игрока
 
 function setup() {
   createCanvas(800, 800);
@@ -41,7 +41,7 @@ function setup() {
 }
 
 function draw() {
- // background(220);
+  background(220);
 
   // Обновляем позицию текущего игрока с учетом вектора скорости
   if (playerId) {
@@ -72,10 +72,10 @@ function keyPressed() {
   if (!playerId) return;
 
   // Обновляем вектор скорости в зависимости от нажатой клавиши
-  if (key === "w") velocity.y = -speed;
-  if (key === "s") velocity.y = speed;
-  if (key === "a") velocity.x = -speed;
-  if (key === "d") velocity.x = speed;
+  if (key === "w") velocity.y = -charSpeed;
+  if (key === "s") velocity.y = charSpeed;
+  if (key === "a") velocity.x = -charSpeed;
+  if (key === "d") velocity.x = charSpeed;
 }
 
 function keyReleased() {
