@@ -7,6 +7,7 @@ let speed = 10;  // Скорость перемещения игрока
 
 function setup() {
   createCanvas(800, 800);
+  frameRate(60);
   background(220);
 
   // Подключение к WebSocket
@@ -40,7 +41,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+ // background(220);
 
   // Обновляем позицию текущего игрока с учетом вектора скорости
   if (playerId) {
