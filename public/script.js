@@ -60,7 +60,9 @@ function draw() {
     if (players[playerId]) {
       players[playerId].x += velocity.x;
       players[playerId].y += velocity.y;
-
+      
+      players[playerId].x = constrain(players[playerId].x, 10, width - 10);
+      players[playerId].y = constrain(players[playerId].y, 10, height - 10);
       // Отправляем обновление позиции игрока на сервер
       socket.send(
         JSON.stringify({
@@ -76,16 +78,7 @@ function draw() {
   if (!keysPressed) {
     velocity.mult(0.98); // Уменьшаем скорость каждый кадр
   }
-if (velocity.x <=0 || velocity.x >= width){
-  charSpeed = 0;
-}else{
-  charSpeed = 5;
-};
-if (velocity.y <=0 || velocity.y >= hieght){
-  charSpeed = 0;
-} else{
-  charSpeed = 5;
-};
+
   
   // Рисуем всех игроков
   for (const id in players) {
