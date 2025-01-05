@@ -2,7 +2,7 @@ let socket;
 let playerId;
 let players = {};
 let velocity = { x: 0, y: 0 }; // Инициализация вектора скорости
-let speed = 5; // Устанавливаем скорость движения
+let charSpeed = 15; // Устанавливаем скорость движения
 
 function setup() {
   createCanvas(800, 800);
@@ -72,10 +72,11 @@ function keyPressed() {
   if (!playerId) return;
 
   // Обновляем вектор скорости в зависимости от нажатой клавиши
-  if (key === "w") velocity.y = -speed;
-  if (key === "s") velocity.y = speed;
-  if (key === "a") velocity.x = -speed;
-  if (key === "d") velocity.x = speed;
+  if (key === "w") velocity.y = -charSpeed;
+  if (key === "s") velocity.y = charSpeed;
+  if (key === "a") velocity.x = -charSpeed;
+  if (key === "d") velocity.x = charSpeed;
+  charSpeed.mult(0.96);
 }
 
 function keyReleased() {
