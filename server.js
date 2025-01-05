@@ -1,62 +1,41 @@
 const express = require("express");
-const WebSocket = require("ws");
-const path = require("path");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const server = http.createServer(app);
+const io = new Server(server);
 
-// Раздача статических файлов
-app.use(express.static(path.join(__dirname, "public")));
-
-// Запуск HTTP-сервера
-const server = app.listen(port, "0.0.0.0", () => {
-  console.log(`Сервер запущен на порту ${port}`);
-});
-
-
-// WebSocket-сервер
-const wss = new WebSocket.Server({ server });
-
-// Состояние игроков
 const players = {};
 
-wss.on("connection", (ws) => {
-  const playerId = Date.now(); // Уникальный ID игрока
-  players[playerId] = { x: Math.random() * 400, y: Math.random() * 400, color: getRandomColor() };
+// Обработчик нового подключения
+io.on("connection", (socket) => {
+    console.log("Новый игрок подключился:", socket.id);
 
-  console.log(`Игрок ${playerId} подключен`);
-  ws.send(JSON.stringify({ type: "init", id: playerId, players }));
+    // Создаём игрока
+    players[socket.id] = { x: 100, y: 100 }; // Начальная позиция
 
-  ws.on("message", (message) => {
-    const data = JSON.parse(message);
+    // Отправляем всем игрокам нового участника
+    io.emit("updatePlayers", players);
 
-    if (data.type === "move") {
-      const player = players[data.id];
-      if (player) {
-        player.x += data.dx;
-        player.y += data.dy;
+    // Обработка отключения игрока
+    socket.on("disconnect", () => {
+        console.log("Игрок отключился:", socket.id);
+        delete players[socket.id];
+        io.emit("updatePlayers", players); // Уведомляем всех об удалении игрока
+    });
 
-        // Уведомляем всех клиентов об изменении состояния
-        broadcast({ type: "update", id: data.id, x: player.x, y: player.y });
-      }
-    }
-  });
-
-  ws.on("close", () => {
-    console.log(`Игрок ${playerId} отключен`);
-    delete players[playerId];
-    broadcast({ type: "remove", id: playerId });
-  });
+    // Обработка движения
+    socket.on("move", (data) => {
+        if (players[socket.id]) {
+            players[socket.id].x += data.x;
+            players[socket.id].y += data.y;
+            io.emit("updatePlayers", players); // Обновляем данные для всех
+        }
+    });
 });
 
-function broadcast(data) {
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(data));
-    }
-  });
-}
-
-function getRandomColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
+const port = process.env.PORT || 8080;
+server.listen(port, "0.0.0.0", () => {
+    console.log(`Сервер запущен на порту ${port}`);
+});
