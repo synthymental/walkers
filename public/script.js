@@ -14,20 +14,27 @@ function setup() {
   };
 
   socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
+  const data = JSON.parse(event.data);
 
-    if (data.type === "init") {
-      playerId = data.id;
-      players = data.players;
-    } else if (data.type === "update") {
-      if (players[data.id]) {
-        players[data.id].x = data.x;
-        players[data.id].y = data.y;
-      }
-    } else if (data.type === "remove") {
-      delete players[data.id];
+  if (data.type === "init") {
+    // Сохраняем ID текущего игрока и список всех существующих игроков
+    playerId = data.id;
+    players = data.players;
+  } else if (data.type === "update") {
+    // Обновляем положение игрока
+    if (players[data.id]) {
+      players[data.id].x = data.x;
+      players[data.id].y = data.y;
+    } else {
+      // Если игрока ещё нет в списке, добавляем его
+      players[data.id] = { x: data.x, y: data.y, color: data.color };
     }
-  };
+  } else if (data.type === "remove") {
+    // Удаляем игрока из списка
+    delete players[data.id];
+  }
+};
+
 }
 
 function draw() {
