@@ -64,7 +64,7 @@ function draw() {
     const player = players[id];
     fill(player.color);
     ellipse(player.x, player.y, 20, 20);
-    text(player.x +" " player.y,player.x+22,player.y+22);
+    text(player.x +" "+ player.y, player.x+22, player.y+22);
   }
 }
 
