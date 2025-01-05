@@ -8,7 +8,7 @@ let lastPingTime = 0; // Время отправки последнего соо
 let keysPressed = false; 
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(700, 700);
   background(220);
 
   velocity = createVector(0, 0); // Инициализация вектора скорости
