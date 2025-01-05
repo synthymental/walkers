@@ -73,7 +73,7 @@ function draw() {
   }
 
   // Применяем затухание скорости
-  velocity.mult(0.96); // Уменьшаем скорость каждый кадр
+//  velocity.mult(0.96); // Уменьшаем скорость каждый кадр
 
   // Рисуем всех игроков
   for (const id in players) {
@@ -99,7 +99,9 @@ function keyPressed() {
   if (key === "a") velocity.x = -charSpeed;
   if (key === "d") velocity.x = charSpeed;
 }
-
+function keyReleased() {
+velocity.mult(0.96);
+}
 // function keyReleased() {
 //   // Останавливаем движение игрока, когда клавиша отпускается
 //   if (key === "w" || key === "s") velocity.y = 0;
