@@ -42,29 +42,31 @@ wss.on("connection", (ws) => {
   }, ws);
 
   // Обработка сообщений от клиента
- // На сервере добавляем проверку, чтобы не отправлять обновления без изменений
-ws.on("message", (message) => {
-  const data = JSON.parse(message);
+  ws.on("message", (message) => {
+    const data = JSON.parse(message);
 
-  if (data.type === "move" && players[data.id]) {
-    const player = players[data.id];
+    if (data.type === "move" && players[data.id]) {
+      const player = players[data.id];
 
-    // Проверяем, изменились ли координаты
-    if (player.x !== player.x + data.dx || player.y !== player.y + data.dy) {
-      players[data.id].x += data.dx;
-      players[data.id].y += data.dy;
+      // Проверяем, изменились ли координаты
+      const newX = player.x + data.dx;
+      const newY = player.y + data.dy;
 
-      // Уведомляем всех об обновлении позиции
-      broadcast({
-        type: "update",
-        id: data.id,
-        x: players[data.id].x,
-        y: players[data.id].y,
-      });
+      // Если позиция изменилась, обновляем
+      if (player.x !== newX || player.y !== newY) {
+        players[data.id].x = newX;
+        players[data.id].y = newY;
+
+        // Уведомляем всех об обновлении позиции
+        broadcast({
+          type: "update",
+          id: data.id,
+          x: newX,
+          y: newY,
+        });
+      }
     }
-  }
-});
-
+  });
 
   // Удаляем игрока при отключении
   ws.on("close", () => {
