@@ -9,99 +9,152 @@ const server = http.createServer(app);
 // Создаем WebSocket сервер на основе HTTP сервера
 const wss = new WebSocket.Server({ server });
 
-let players = {};
+const PLAYERS = [];
 let nextId = 1;
+const charSpeed = 5; // Базовая скорость
+const fps = 60;
+const INTERVAL = 1000 / fps;
+const SCREENSIZE = 700;
 
-// Статический сервер для отдачи файлов (если у тебя есть фронтенд в виде HTML/JS)
 app.use(express.static("public"));
 
-// Обработка WebSocket соединений
-wss.on("connection", (ws) => {
-  const playerId = nextId++;
-  const playerColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  players[playerId] = { x: 100, y: 100, color: playerColor }; // Добавляем игрока
 
-  console.log(`Игрок подключился: ${playerId}`);
+
+
+
+
+// когда подключился новенький
+wss.on("connection", (newClient) => {
+  //создали ему игрока
+  const newPlayer = {
+    id: nextId,
+    x: 100,
+    y: 100,
+    vel: {
+      x: 0,
+      y: 0
+    },
+    color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+    keysPressed: [0,0]
+  }
+  nextId ++;
+  PLAYERS.push(newPlayer);
+
+  console.log(`Игрок подключился: ${newPlayer.id}`);
 
   // Отправляем новому игроку его ID и список всех игроков
-  ws.send(
+  newClient.send(
     JSON.stringify({
       type: "init",
-      id: playerId,
-      players,
+      id: newPlayer.id,
+      players: PLAYERS
     })
   );
 
-  // Уведомляем остальных игроков о новом участнике
-  broadcast({
-    type: "update",
-    id: playerId,
-    x: players[playerId].x,
-    y: players[playerId].y,
-    color: playerColor,
-  }, ws);
 
-  // Обработка сообщений от клиента
-  ws.on("message", (message) => {
-    const data = JSON.parse(message);
+  // обработка сообщений от новичка
+  newClient.on("message", async (message) => {
+    try {
+      const data = JSON.parse(message);
 
-    if (data.type === "move" && players[data.id]) {
-      const player = players[data.id];
+      if (data.type === "press") {
+        //если игрок что-то нажал или отпустил — обновляем массивчик с кнопками
+        const player = PLAYERS.find(player => player.id === data.id);
+        player.keysPressed = data.keys;
 
-      // Проверяем, изменились ли координаты
-      const newX = player.x + data.dx;
-      const newY = player.y + data.dy;
-
-      // Если позиция изменилась, обновляем
-      if (player.x !== newX || player.y !== newY) {
-        players[data.id].x = newX;
-        players[data.id].y = newY;
-
-        // Уведомляем всех об обновлении позиции
-        broadcast({
-          type: "update",
-          id: data.id,
-          x: newX,
-          y: newY,
-        });
+      } else if (data.type === "ping") {
+        // Отправляем ответ на ping-запрос
+        newClient.send(JSON.stringify({ type: "pong" }));
       }
-    }
-    if (data.type === "ping") {
-      // Отправляем ответ на ping-запрос
-      ws.send(JSON.stringify({ type: "pong" }));
+
+      // Дополнительные типы сообщений можно обработать здесь
+    } catch (error) {
+      console.error("Ошибка при обработке сообщения:", error);
     }
   });
 
   // Удаляем игрока при отключении
-  ws.on("close", () => {
-    console.log(`Игрок отключился: ${playerId}`);
-    delete players[playerId];
-
-    // Уведомляем всех об удалении игрока
-    broadcast({
-      type: "remove",
-      id: playerId,
-    });
+  newClient.on("close", () => {
+    console.log(`Игрок отключился: ${newPlayer.id}`);
+    const index = PLAYERS.findIndex(player => player.id === newPlayer.id);
+    if (index !== -1) {
+      PLAYERS.splice(index, 1);
+    }
   });
 
+
+
   // Обработка ошибок WebSocket
-  ws.on("error", (error) => {
+  newClient.on("error", (error) => {
     console.error("WebSocket ошибка:", error);
   });
 });
 
-// Утилита для отправки данных всем клиентам
-function broadcast(data, exclude) {
+
+
+//шлем всем регулярные апдейты 
+setInterval(() => {
+  updatePlayersPositions();
+  broadcastAsync({
+    type: "update",
+    players: PLAYERS
+  });
+}, INTERVAL);
+
+
+
+
+
+
+
+
+
+
+
+// Утилита для асинхронной отправки данных всем клиентам
+async function broadcastAsync(data, exclude=null) {
   const message = JSON.stringify(data);
+  const sendPromises = [];
+
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN && client !== exclude) {
-      client.send(message);
+      sendPromises.push(client.send(message));
     }
   });
+
+  try {
+    await Promise.all(sendPromises);
+  } catch (error) {
+    console.error("Ошибка при отправке сообщений:", error);
+  }
 }
+
 
 // Запускаем Express сервер
 const port = process.env.PORT || 8080;
 server.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);
 });
+
+
+function updatePlayersPositions(){
+  for(const pl of PLAYERS){
+
+    // X
+    if (pl.keysPressed[0] == 0) pl.vel.x *= 0.98; 
+    else pl.vel.x = pl.keysPressed[0] * charSpeed;
+    // Y
+    if (pl.keysPressed[1] == 0) pl.vel.y *= 0.98; 
+    else pl.vel.y = pl.keysPressed[1] * charSpeed;
+    
+
+    pl.x += pl.vel.x;
+    pl.y += pl.vel.y;
+
+    // Ограничиваем координаты игрока в пределах экрана
+    pl.x = Math.max(0, Math.min(SCREENSIZE, pl.x));
+    pl.y = Math.max(0, Math.min(SCREENSIZE, pl.y));
+
+    
+  }
+}
