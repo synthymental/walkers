@@ -66,6 +66,10 @@ wss.on("connection", (ws) => {
         });
       }
     }
+    if (data.type === "ping") {
+      // Отправляем ответ на ping-запрос
+      ws.send(JSON.stringify({ type: "pong" }));
+    }
   });
 
   // Удаляем игрока при отключении
