@@ -3,6 +3,8 @@ let playerId;
 let players = {};
 let velocity = { x: 0, y: 0 }; // Инициализация вектора скорости
 let charSpeed = 15; // Устанавливаем скорость движения
+let ping = 0; // Переменная для хранения текущего пинга
+let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
 
 function setup() {
   createCanvas(800, 800);
@@ -13,6 +15,12 @@ function setup() {
 
   socket.onopen = () => {
     console.log("Соединение установлено");
+
+    // Периодически измеряем пинг
+    setInterval(() => {
+      lastPingTime = Date.now();
+      socket.send(JSON.stringify({ type: "ping" })); // Отправляем ping-запрос на сервер
+    }, 1000); // Каждую секунду
   };
 
   socket.onmessage = (event) => {
@@ -34,6 +42,9 @@ function setup() {
     } else if (data.type === "remove") {
       // Удаляем игрока из списка
       delete players[data.id];
+    } else if (data.type === "pong") {
+      // Рассчитываем пинг как разницу между текущим временем и временем отправки
+      ping = Date.now() - lastPingTime;
     }
   };
 }
@@ -64,8 +75,14 @@ function draw() {
     const player = players[id];
     fill(player.color);
     ellipse(player.x, player.y, 20, 20);
-    text(player.x +" "+ player.y, player.x+22, player.y+22);
+    textSize(12);
+    text(`${player.x}, ${player.y}`, player.x + 22, player.y + 22);
   }
+
+  // Отображаем пинг
+  fill(0);
+  textSize(16);
+  text(`Ping: ${ping} ms`, 10, height - 10);
 }
 
 function keyPressed() {
@@ -76,7 +93,6 @@ function keyPressed() {
   if (key === "s") velocity.y = charSpeed;
   if (key === "a") velocity.x = -charSpeed;
   if (key === "d") velocity.x = charSpeed;
-  charSpeed.mult(0.96);
 }
 
 function keyReleased() {
