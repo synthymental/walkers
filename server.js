@@ -1,13 +1,10 @@
 const WebSocket = require("ws");
-const https = require("https");
-const fs = require("fs");
+const http = require("http");
 
-// Чтение SSL-сертификатов (необходимы для работы с HTTPS)
-const server = https.createServer({
-  key: fs.readFileSync('path/to/your/private-key.pem'),
-  cert: fs.readFileSync('path/to/your/certificate.pem'),
-});
+// Создаем обычный HTTP сервер
+const server = http.createServer();
 
+// Создаем WebSocket сервер на этом HTTP сервере
 const wss = new WebSocket.Server({ server });
 
 // Игроки и их данные
@@ -85,7 +82,7 @@ function broadcast(data, exclude) {
   });
 }
 
-// Запуск HTTPS-сервера на порту, определённом платформой (например, Railway)
+// Запуск HTTP-сервера на порту, определённом платформой (например, Railway)
 const port = process.env.PORT || 8080;
 server.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);
