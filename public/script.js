@@ -97,10 +97,10 @@ function keyPressed() {
   keysPressed = true;
 
   // Обновляем вектор скорости в зависимости от нажатой клавиши
-  if (key === "w") velocity.y = -charSpeed;
-  if (key === "s") velocity.y = charSpeed;
-  if (key === "a") velocity.x = -charSpeed;
-  if (key === "d") velocity.x = charSpeed;
+  if (key === "w" || key === "ц" || key === "W") velocity.y = -charSpeed;
+  if (key === "s"|| key === "ы"|| key === "S") velocity.y = charSpeed;
+  if (key === "a"|| key === "ф"|| key === "A") velocity.x = -charSpeed;
+  if (key === "d"|| key === "в"|| key === "D") velocity.x = charSpeed;
 }
 function keyReleased() {
 keysPressed = false;
