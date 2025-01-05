@@ -1,10 +1,11 @@
 let socket;
 let playerId;
 let players = {};
+let velocity = { x: 0, y: 0 }; // Инициализация вектора скорости
+let speed = 5; // Устанавливаем скорость движения
 
 function setup() {
   createCanvas(400, 400);
-  frameRate(60);
   background(220);
 
   // Подключение к WebSocket
@@ -21,12 +22,6 @@ function setup() {
       // Сохраняем ID текущего игрока и список всех существующих игроков
       playerId = data.id;
       players = data.players;
-
-      // Сразу устанавливаем начальную позицию для текущего игрока
-      if (players[playerId]) {
-        players[playerId].x = players[playerId].x || 100;  // начальная позиция
-        players[playerId].y = players[playerId].y || 100;  // начальная позиция
-      }
     } else if (data.type === "update") {
       // Обновляем положение игрока
       if (players[data.id]) {
@@ -48,22 +43,20 @@ function draw() {
 
   // Обновляем позицию текущего игрока с учетом вектора скорости
   if (playerId) {
-    // Даем плавность движения, используя интерполяцию
-    const smoothing = 0.1;
     if (players[playerId]) {
-      players[playerId].x += (players[playerId].targetX - players[playerId].x) * smoothing;
-      players[playerId].y += (players[playerId].targetY - players[playerId].y) * smoothing;
-    }
+      players[playerId].x += velocity.x;
+      players[playerId].y += velocity.y;
 
-    // Отправляем обновление позиции игрока на сервер
-    socket.send(
-      JSON.stringify({
-        type: "move",
-        id: playerId,
-        dx: velocity.x,
-        dy: velocity.y,
-      })
-    );
+      // Отправляем обновление позиции игрока на сервер
+      socket.send(
+        JSON.stringify({
+          type: "move",
+          id: playerId,
+          dx: velocity.x,
+          dy: velocity.y,
+        })
+      );
+    }
   }
 
   // Рисуем всех игроков
