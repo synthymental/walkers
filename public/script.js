@@ -9,9 +9,14 @@ function setup() {
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
 
-  socket.onopen = () => {
-    console.log("Соединение установлено");
-  };
+ socket.onopen = () => {
+  console.log("Соединение установлено");
+};
+
+socket.onerror = (error) => {
+  console.error("Ошибка WebSocket:", error);
+};
+
 
   socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
