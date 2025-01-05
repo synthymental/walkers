@@ -2,7 +2,7 @@ let socket;
 let playerId;
 let players = {};
 let velocity = { x: 0, y: 0 }; // Инициализация вектора скорости
-let charSpeed = 15; // Устанавливаем скорость движения
+let charSpeed = 10; // Устанавливаем скорость движения
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
 
@@ -93,7 +93,7 @@ function keyPressed() {
   if (key === "s") velocity.y = charSpeed;
   if (key === "a") velocity.x = -charSpeed;
   if (key === "d") velocity.x = charSpeed;
-  charSpeed.mult(0.96);
+  velocity.mult(0.98);
 }
 
 // function keyReleased() {
