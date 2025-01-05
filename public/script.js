@@ -2,11 +2,8 @@ let socket;
 let playerId;
 let players = {};
 
-let velocity = { x: 0, y: 0 };  // Вектор скорости игрока
-let charSpeed = 5;  // Скорость перемещения игрока
-
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(400, 400);
   frameRate(60);
   background(220);
 
@@ -24,6 +21,12 @@ function setup() {
       // Сохраняем ID текущего игрока и список всех существующих игроков
       playerId = data.id;
       players = data.players;
+
+      // Сразу устанавливаем начальную позицию для текущего игрока
+      if (players[playerId]) {
+        players[playerId].x = players[playerId].x || 100;  // начальная позиция
+        players[playerId].y = players[playerId].y || 100;  // начальная позиция
+      }
     } else if (data.type === "update") {
       // Обновляем положение игрока
       if (players[data.id]) {
@@ -45,8 +48,12 @@ function draw() {
 
   // Обновляем позицию текущего игрока с учетом вектора скорости
   if (playerId) {
-    players[playerId].x += velocity.x;
-    players[playerId].y += velocity.y;
+    // Даем плавность движения, используя интерполяцию
+    const smoothing = 0.1;
+    if (players[playerId]) {
+      players[playerId].x += (players[playerId].targetX - players[playerId].x) * smoothing;
+      players[playerId].y += (players[playerId].targetY - players[playerId].y) * smoothing;
+    }
 
     // Отправляем обновление позиции игрока на сервер
     socket.send(
@@ -67,15 +74,14 @@ function draw() {
   }
 }
 
-// На клиенте
 function keyPressed() {
   if (!playerId) return;
 
   // Обновляем вектор скорости в зависимости от нажатой клавиши
-  if (key === "w") velocity.y = -charSpeed;
-  if (key === "s") velocity.y = charSpeed;
-  if (key === "a") velocity.x = -charSpeed;
-  if (key === "d") velocity.x = charSpeed;
+  if (key === "w") velocity.y = -speed;
+  if (key === "s") velocity.y = speed;
+  if (key === "a") velocity.x = -speed;
+  if (key === "d") velocity.x = speed;
 }
 
 function keyReleased() {
