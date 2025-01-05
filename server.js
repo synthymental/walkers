@@ -9,9 +9,10 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 
 // Запуск HTTP-сервера
-const server = app.listen(port, () => {
-  console.log(`Сервер запущен на http://localhost:${port}`);
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`Сервер запущен на порту ${port}`);
 });
+
 
 // WebSocket-сервер
 const wss = new WebSocket.Server({ server });
