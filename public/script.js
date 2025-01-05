@@ -46,10 +46,10 @@ function keyPressed() {
 
   let dx = 0, dy = 0;
 
-  if (key === "W") dy = -5;
-  if (key === "S") dy = 5;
-  if (key === "A") dx = -5;
-  if (key === "D") dx = 5;
+  if (key === "w") dy = -5;
+  if (key === "s") dy = 5;
+  if (key === "a") dx = -5;
+  if (key === "d") dx = 5;
 
   socket.send(JSON.stringify({ type: "move", id: playerId, dx, dy }));
 }
