@@ -76,7 +76,17 @@ function draw() {
   if (!keysPressed) {
     velocity.mult(0.98); // Уменьшаем скорость каждый кадр
   }
-
+if (velocity.x <=0 || velocity.x >= width){
+  charSpeed = 0;
+}else{
+  charSpeed = 5;
+};
+if (velocity.y <=0 || velocity.y >= hieght){
+  charSpeed = 0;
+} else{
+  charSpeed = 5;
+};
+  
   // Рисуем всех игроков
   for (const id in players) {
     const player = players[id];
