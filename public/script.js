@@ -5,6 +5,7 @@ let velocity; // Используем p5.Vector
 let charSpeed = 5; // Базовая скорость
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
+let keysPressed = false; 
 
 function setup() {
   createCanvas(800, 800);
@@ -93,6 +94,7 @@ function draw() {
 
 function keyPressed() {
   if (!playerId) return;
+  keysPressed = true;
 
   // Обновляем вектор скорости в зависимости от нажатой клавиши
   if (key === "w") velocity.y = -charSpeed;
@@ -100,9 +102,9 @@ function keyPressed() {
   if (key === "a") velocity.x = -charSpeed;
   if (key === "d") velocity.x = charSpeed;
 }
-// function keyReleased() {
-// velocity.mult(0.96);
-// }
+function keyReleased() {
+keysPressed = false;
+}
 // // function keyReleased() {
 // //   // Останавливаем движение игрока, когда клавиша отпускается
 // //   if (key === "w" || key === "s") velocity.y = 0;
