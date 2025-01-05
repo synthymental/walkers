@@ -93,10 +93,11 @@ function keyPressed() {
   if (key === "s") velocity.y = charSpeed;
   if (key === "a") velocity.x = -charSpeed;
   if (key === "d") velocity.x = charSpeed;
+  charSpeed.mult(0.96);
 }
 
-function keyReleased() {
-  // Останавливаем движение игрока, когда клавиша отпускается
-  if (key === "w" || key === "s") velocity.y = 0;
-  if (key === "a" || key === "d") velocity.x = 0;
-}
+// function keyReleased() {
+//   // Останавливаем движение игрока, когда клавиша отпускается
+//   if (key === "w" || key === "s") velocity.y = 0;
+//   if (key === "a" || key === "d") velocity.x = 0;
+// }
