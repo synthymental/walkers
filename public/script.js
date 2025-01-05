@@ -1,14 +1,16 @@
 let socket;
 let playerId;
 let players = {};
-let velocity = { x: 0, y: 0 }; // Инициализация вектора скорости
-let charSpeed = 10; // Устанавливаем скорость движения
+let velocity; // Используем p5.Vector
+let charSpeed = 2; // Базовая скорость
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
 
 function setup() {
   createCanvas(800, 800);
   background(220);
+
+  velocity = createVector(0, 0); // Инициализация вектора скорости
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
@@ -69,8 +71,9 @@ function draw() {
       );
     }
   }
-  velocity.mult(0.98);
-  
+
+  // Применяем затухание скорости
+  velocity.mult(0.98); // Уменьшаем скорость каждый кадр
 
   // Рисуем всех игроков
   for (const id in players) {
@@ -85,7 +88,6 @@ function draw() {
   fill(0);
   textSize(16);
   text(`Ping: ${ping} ms`, 10, height - 10);
-
 }
 
 function keyPressed() {
@@ -96,11 +98,10 @@ function keyPressed() {
   if (key === "s") velocity.y = charSpeed;
   if (key === "a") velocity.x = -charSpeed;
   if (key === "d") velocity.x = charSpeed;
-  
 }
 
-// function keyReleased() {
-//   // Останавливаем движение игрока, когда клавиша отпускается
-//   if (key === "w" || key === "s") velocity.y = 0;
-//   if (key === "a" || key === "d") velocity.x = 0;
-// }
+function keyReleased() {
+  // Останавливаем движение игрока, когда клавиша отпускается
+  if (key === "w" || key === "s") velocity.y = 0;
+  if (key === "a" || key === "d") velocity.x = 0;
+}
