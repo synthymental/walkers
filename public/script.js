@@ -5,7 +5,7 @@ let velocity = { x: 0, y: 0 }; // Инициализация вектора ск
 let speed = 5; // Устанавливаем скорость движения
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(800, 800);
   background(220);
 
   // Подключение к WebSocket
@@ -64,6 +64,7 @@ function draw() {
     const player = players[id];
     fill(player.color);
     ellipse(player.x, player.y, 20, 20);
+    text(player.x +" " player.y,player.x+22,player.y+22);
   }
 }
 
