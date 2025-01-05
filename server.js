@@ -1,7 +1,16 @@
 const WebSocket = require("ws");
+const https = require("https");
+const fs = require("fs");
 
-const wss = new WebSocket.Server({ port: 8080 });
+// Чтение SSL-сертификатов (необходимы для работы с HTTPS)
+const server = https.createServer({
+  key: fs.readFileSync('path/to/your/private-key.pem'),
+  cert: fs.readFileSync('path/to/your/certificate.pem'),
+});
 
+const wss = new WebSocket.Server({ server });
+
+// Игроки и их данные
 let players = {};
 let nextId = 1;
 
@@ -59,6 +68,11 @@ wss.on("connection", (ws) => {
       id: playerId,
     });
   });
+
+  // Обработка ошибок WebSocket
+  ws.on("error", (error) => {
+    console.error("WebSocket error:", error);
+  });
 });
 
 // Утилита для отправки данных всем клиентам
@@ -71,4 +85,8 @@ function broadcast(data, exclude) {
   });
 }
 
-console.log("Сервер запущен на порту 8080");
+// Запуск HTTPS-сервера на порту, определённом платформой (например, Railway)
+const port = process.env.PORT || 8080;
+server.listen(port, () => {
+  console.log(`Сервер запущен на порту ${port}`);
+});
