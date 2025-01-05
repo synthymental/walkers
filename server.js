@@ -1,16 +1,21 @@
-const WebSocket = require("ws");
+const express = require("express");
 const http = require("http");
+const WebSocket = require("ws");
 
-// Создаем обычный HTTP сервер
-const server = http.createServer();
+// Создаем Express приложение
+const app = express();
+const server = http.createServer(app);
 
-// Создаем WebSocket сервер на этом HTTP сервере
+// Создаем WebSocket сервер на основе HTTP сервера
 const wss = new WebSocket.Server({ server });
 
-// Игроки и их данные
 let players = {};
 let nextId = 1;
 
+// Статический сервер для отдачи файлов (если у тебя есть фронтенд в виде HTML/JS)
+app.use(express.static("public"));
+
+// Обработка WebSocket соединений
 wss.on("connection", (ws) => {
   const playerId = nextId++;
   const playerColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -68,7 +73,7 @@ wss.on("connection", (ws) => {
 
   // Обработка ошибок WebSocket
   ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
+    console.error("WebSocket ошибка:", error);
   });
 });
 
@@ -82,7 +87,7 @@ function broadcast(data, exclude) {
   });
 }
 
-// Запуск HTTP-сервера на порту, определённом платформой (например, Railway)
+// Запускаем Express сервер
 const port = process.env.PORT || 8080;
 server.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);
