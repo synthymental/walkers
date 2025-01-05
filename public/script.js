@@ -2,7 +2,7 @@ let socket;
 let playerId;
 let players = {};
 let velocity; // Используем p5.Vector
-let charSpeed = 2; // Базовая скорость
+let charSpeed = 5; // Базовая скорость
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
 
@@ -73,7 +73,7 @@ function draw() {
   }
 
   // Применяем затухание скорости
-  velocity.mult(0.98); // Уменьшаем скорость каждый кадр
+  velocity.mult(0.96); // Уменьшаем скорость каждый кадр
 
   // Рисуем всех игроков
   for (const id in players) {
@@ -100,8 +100,8 @@ function keyPressed() {
   if (key === "d") velocity.x = charSpeed;
 }
 
-function keyReleased() {
-  // Останавливаем движение игрока, когда клавиша отпускается
-  if (key === "w" || key === "s") velocity.y = 0;
-  if (key === "a" || key === "d") velocity.x = 0;
-}
+// function keyReleased() {
+//   // Останавливаем движение игрока, когда клавиша отпускается
+//   if (key === "w" || key === "s") velocity.y = 0;
+//   if (key === "a" || key === "d") velocity.x = 0;
+// }
