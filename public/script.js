@@ -69,6 +69,8 @@ function draw() {
       );
     }
   }
+  velocity.mult(0.98);
+  
 
   // Рисуем всех игроков
   for (const id in players) {
@@ -83,6 +85,7 @@ function draw() {
   fill(0);
   textSize(16);
   text(`Ping: ${ping} ms`, 10, height - 10);
+
 }
 
 function keyPressed() {
@@ -93,7 +96,7 @@ function keyPressed() {
   if (key === "s") velocity.y = charSpeed;
   if (key === "a") velocity.x = -charSpeed;
   if (key === "d") velocity.x = charSpeed;
-  velocity.mult(0.98);
+  
 }
 
 // function keyReleased() {
