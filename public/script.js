@@ -66,15 +66,23 @@ function draw() {
   }
 }
 
+// На клиенте
 function keyPressed() {
   if (!playerId) return;
 
-  // Обновляем вектор скорости в зависимости от нажатой клавиши
-  if (key === "w") velocity.y = -speed;
-  if (key === "s") velocity.y = speed;
-  if (key === "a") velocity.x = -speed;
-  if (key === "d") velocity.x = speed;
+  let dx = 0, dy = 0;
+
+  if (key === "w") dy = -speed;
+  if (key === "s") dy = speed;
+  if (key === "a") dx = -speed;
+  if (key === "d") dx = speed;
+
+  // Только если позиция изменяется на несколько пикселей, отправлять данные
+  if (dx !== 0 || dy !== 0) {
+    socket.send(JSON.stringify({ type: "move", id: playerId, dx, dy }));
+  }
 }
+
 
 function keyReleased() {
   // Останавливаем движение игрока, когда клавиша отпускается
