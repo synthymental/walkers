@@ -1,41 +1,74 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
+const WebSocket = require("ws");
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+const wss = new WebSocket.Server({ port: 8080 });
 
-const players = {};
+let players = {};
+let nextId = 1;
 
-// Обработчик нового подключения
-io.on("connection", (socket) => {
-    console.log("Новый игрок подключился:", socket.id);
+wss.on("connection", (ws) => {
+  const playerId = nextId++;
+  const playerColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  players[playerId] = { x: 100, y: 100, color: playerColor }; // Добавляем игрока
 
-    // Создаём игрока
-    players[socket.id] = { x: 100, y: 100 }; // Начальная позиция
+  console.log(`Игрок подключился: ${playerId}`);
 
-    // Отправляем всем игрокам нового участника
-    io.emit("updatePlayers", players);
+  // Отправляем новому игроку его ID и список всех игроков
+  ws.send(
+    JSON.stringify({
+      type: "init",
+      id: playerId,
+      players,
+    })
+  );
 
-    // Обработка отключения игрока
-    socket.on("disconnect", () => {
-        console.log("Игрок отключился:", socket.id);
-        delete players[socket.id];
-        io.emit("updatePlayers", players); // Уведомляем всех об удалении игрока
+  // Уведомляем остальных игроков о новом участнике
+  broadcast({
+    type: "update",
+    id: playerId,
+    x: players[playerId].x,
+    y: players[playerId].y,
+    color: playerColor,
+  }, ws);
+
+  // Обработка сообщений от клиента
+  ws.on("message", (message) => {
+    const data = JSON.parse(message);
+
+    if (data.type === "move" && players[data.id]) {
+      players[data.id].x += data.dx;
+      players[data.id].y += data.dy;
+
+      // Уведомляем всех об обновлении позиции
+      broadcast({
+        type: "update",
+        id: data.id,
+        x: players[data.id].x,
+        y: players[data.id].y,
+      });
+    }
+  });
+
+  // Удаляем игрока при отключении
+  ws.on("close", () => {
+    console.log(`Игрок отключился: ${playerId}`);
+    delete players[playerId];
+
+    // Уведомляем всех об удалении игрока
+    broadcast({
+      type: "remove",
+      id: playerId,
     });
-
-    // Обработка движения
-    socket.on("move", (data) => {
-        if (players[socket.id]) {
-            players[socket.id].x += data.x;
-            players[socket.id].y += data.y;
-            io.emit("updatePlayers", players); // Обновляем данные для всех
-        }
-    });
+  });
 });
 
-const port = process.env.PORT || 8080;
-server.listen(port, "0.0.0.0", () => {
-    console.log(`Сервер запущен на порту ${port}`);
-});
+// Утилита для отправки данных всем клиентам
+function broadcast(data, exclude) {
+  const message = JSON.stringify(data);
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN && client !== exclude) {
+      client.send(message);
+    }
+  });
+}
+
+console.log("Сервер запущен на порту 8080");
