@@ -15,7 +15,7 @@ let nextId = 1;
 const charSpeed = 5; // Базовая скорость
 const fps = 60;
 const INTERVAL = 1000 / fps;
-const SCREENSIZE = 700;
+const SCREENSIZE = 900;
 
 app.use(express.static("public"));
 
@@ -174,7 +174,7 @@ function updatePlayersPositions(){
 }
 function updateShotsPositions() {
   for (const shoot of SHOOTS) {
-    shoot.x += shoot.dirX * 10; // Умножаем на скорость
-    shoot.y += shoot.dirY * 10;
+    shoot.x += shoot.dirX * 1; // Умножаем на скорость
+    shoot.y += shoot.dirY * 1;
   }
 }
