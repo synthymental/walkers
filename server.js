@@ -174,8 +174,15 @@ function updatePlayersPositions(){
 }
 function updateShotsPositions() {
   for (const shoot of SHOOTS) {
-    shoot.x += shoot.dirX * 0.01; // Умножаем на скорость
-    shoot.y += shoot.dirY * 0.01;
-    console.log("выстрел" + shoot.x);
+    shoot.x += shoot.dirX * 10; // Умножаем на скорость
+    shoot.y += shoot.dirY * 10;
+
+    // Удаляем выстрелы, если они выходят за экран
+    if (shoot.x < 0 || shoot.x > SCREENSIZE || shoot.y < 0 || shoot.y > SCREENSIZE) {
+      const index = SHOOTS.indexOf(shoot);
+      if (index !== -1) {
+        SHOOTS.splice(index, 1); // Удаляем выстрел из массива
+      }
+    }
   }
 }
