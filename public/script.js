@@ -35,22 +35,19 @@ function setup() {
 
   // обработка сообщений от сервера
   socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
+  const data = JSON.parse(event.data);
 
-    if (data.type === "init") {
-      // Сохраняем ID текущего игрока и список всех существующих игроков
-      MY_ID = data.id;
-      players = data.players;
-      shoots = data.shoots;
-
-    } else if (data.type === "update") {
-      //обновляем данные игроков
-      players = data.players;
-    } else if (data.type === "pong") {
-      // Рассчитываем пинг как разницу между текущим временем и временем отправки
-      ping = Date.now() - lastPingTime;
-    }
-  };
+  if (data.type === "init") {
+    MY_ID = data.id;
+    players = data.players;
+    shoots = data.shoots || []; // Handle case when shoots are undefined
+  } else if (data.type === "update") {
+    players = data.players;
+    shoots = data.shoots; // Add this line to sync shoots with server
+  } else if (data.type === "pong") {
+    ping = Date.now() - lastPingTime;
+  }
+};
 }
 
 function draw() {
