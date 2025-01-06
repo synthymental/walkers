@@ -79,25 +79,42 @@ function draw() {
   fill(200);
   textSize(16);
   text(`Ping: ${ping} ms`, 10, height - 10);
+
+
+  text("*", shootPos.x, shootPos.y);
 }
 
 
 
 function mousePressed() {
+  if (MY_ID === undefined) return;
+
+  // Находим текущего игрока по его ID
+  const player = players.find(p => p.id === MY_ID);
+  if (!player) return;
+
   // Начальная позиция (точка, откуда будет идти "выстрел")
   let shoot = createVector(player.x, player.y);
 
   // Вектор направления (цель мыши относительно игрока)
   let direction = createVector(mouseX - player.x, mouseY - player.y);
+  direction.normalize(); // Нормализуем вектор, чтобы выстрел был на одинаковой скорости во всех направлениях
 
-  // Добавляем начальную позицию и направление для вычисления конечной точки
-  let shootDirection = p5.Vector.add(shoot, direction);
+  // Отправляем данные о выстреле на сервер
+  socket.send(JSON.stringify({
+    type: 'shoot',
+    id: MY_ID,
+    x: shoot.x,
+    y: shoot.y,
+    dirX: direction.x,
+    dirY: direction.y
+  }));
 
-  // Рисуем текст "*" в конечной точке
+  // Выводим текст "*" в конечной точке на экране
+  let shootDirection = p5.Vector.add(shoot, direction.mult(50)); // Умножаем направление, чтобы получить точку вдали
   text("*", shootDirection.x, shootDirection.y);
-
-  console.log("shoot");
 }
+
 
 function keyPressed() {
   if (!MY_ID) return;
