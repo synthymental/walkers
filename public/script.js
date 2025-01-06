@@ -59,7 +59,10 @@ function draw() {
     //ellipse(player.x, player.y, 20, 20);
     //textSize(12);
     text( character, player.x + 22, player.y + 22);
-    text("x", mouseX,mouseY);
+
+    
+    textSize(16);
+    text("x", mouseX-8,mouseY-8);
   }
 
   // Отображаем пинг
