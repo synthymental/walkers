@@ -87,7 +87,7 @@ function mousePressed(){
 
 shoot = createVector(player.x,player.y);
 direction = createVector(mouseX,mouseY); 
-shootDirection = shoot.add(direction);
+shootDirection = p5.Vector.sub(shoot, direction);
   text("*",shootDirection.x,shootDirection.y);
   console.log("shoot");
 }
