@@ -6,6 +6,11 @@ let keysPressed = [ 0, 0] // vertical & horizontal & brake
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
 
+const character = `
+  O
+ /|\
+ / \
+`;
 
 function setup() {
   createCanvas(700, 700);
@@ -52,7 +57,7 @@ function draw() {
     fill(player.color);
     ellipse(player.x, player.y, 20, 20);
     textSize(12);
-    text(`${round(player.x)}, ${round(player.y)}`, player.x + 22, player.y + 22);
+    text(character, player.x + 22, player.y + 22);
   }
 
   // Отображаем пинг
