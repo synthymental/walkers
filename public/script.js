@@ -80,6 +80,7 @@ function draw() {
   text(`Ping: ${ping} ms`, 10, height - 10);
 
 
+  if (shoots && shoots.length > 0) {
   for (const shoot of shoots) {
     let shootPos = createVector(shoot.x, shoot.y);
     let direction = createVector(shoot.dirX, shoot.dirY);
@@ -88,6 +89,8 @@ function draw() {
     // Рисуем пулю как точку
     text("*", shootPos.x, shootPos.y);
   }
+}
+
 }
 
 
