@@ -175,16 +175,16 @@ function updatePlayersPositions(){
   }
 }
 function updateShotsPositions() {
-  for (const shoot of SHOOTS) {
-    shoot.x += shoot.dirX * 0.5; // Умножаем на скорость
-    shoot.y += shoot.dirY * 0.5;
+  for (let i = SHOOTS.length - 1; i >= 0; i--) {
+    const shoot = SHOOTS[i];
+    // Increase speed multiplier for more visible movement
+    shoot.x += shoot.dirX * 2; // Increased from 0.5 to 2
+    shoot.y += shoot.dirY * 2; // Increased from 0.5 to 2
 
-    // Удаляем выстрелы, если они выходят за экран
-    if (shoot.x < 0 || shoot.x > SCREENSIZE || shoot.y < 0 || shoot.y > SCREENSIZE) {
-      const index = SHOOTS.indexOf(shoot);
-      if (index !== -1) {
-        SHOOTS.splice(index, 1); // Удаляем выстрел из массива
-      }
+    // Remove if out of bounds
+    if (shoot.x < 0 || shoot.x > SCREENSIZE || 
+        shoot.y < 0 || shoot.y > SCREENSIZE) {
+      SHOOTS.splice(i, 1);
     }
   }
 }
