@@ -21,7 +21,7 @@ const characterStates = {
   / \\
 `,
   waving: `
-   o/
+  _o/
    |
   / \\
 `
