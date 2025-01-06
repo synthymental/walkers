@@ -19,9 +19,7 @@ function setup() {
   createCanvas(900, 900);
   background(0);
 
-  // shoot = createVector(0,0);
-  // direction = createVector(0,0); 
-  // shootDirection = createVector(0,0);
+;
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
@@ -80,7 +78,7 @@ function draw() {
         // Рисуем пулю
         textSize(50);
         fill(255);
-        text("S", shootPos.x, shootPos.y);
+        text("*", shootPos.x, shootPos.y);
         
         // Обновляем координаты пули
         shoot.x = shootPos.x;
@@ -110,7 +108,7 @@ function mousePressed() {
 
   // Вектор направления (цель мыши относительно игрока)
   let direction = createVector(mouseX - player.x, mouseY - player.y);
-  direction.normalize(); // Нормализуем вектор, чтобы выстрел был на одинаковой скорости во всех направлениях
+  //direction.normalize(); // Нормализуем вектор, чтобы выстрел был на одинаковой скорости во всех направлениях
 
   // Проверяем перед добавлением
   if (shoot && direction) {
