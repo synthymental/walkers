@@ -155,10 +155,10 @@ function updatePlayersPositions(){
   for(const pl of PLAYERS){
 
     // X
-    if (pl.keysPressed[0] == 0) pl.vel.x *= 0.98; 
+    if (pl.keysPressed[0] == 0) pl.vel.x *= 0.96; 
     else pl.vel.x = pl.keysPressed[0] * charSpeed;
     // Y
-    if (pl.keysPressed[1] == 0) pl.vel.y *= 0.98; 
+    if (pl.keysPressed[1] == 0) pl.vel.y *= 0.96; 
     else pl.vel.y = pl.keysPressed[1] * charSpeed;
     
 
@@ -174,7 +174,8 @@ function updatePlayersPositions(){
 }
 function updateShotsPositions() {
   for (const shoot of SHOOTS) {
-    shoot.x += shoot.dirX * 1; // Умножаем на скорость
-    shoot.y += shoot.dirY * 1;
+    shoot.x += shoot.dirX * 0.01; // Умножаем на скорость
+    shoot.y += shoot.dirY * 0.01;
+    console.log("выстрел" + shoot.x);
   }
 }
