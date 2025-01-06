@@ -27,7 +27,7 @@ const characterStates = {
 `
 };
 
-
+let character = characterStates.normal;
 
 function setup() {
   createCanvas(900, 900);
@@ -71,7 +71,7 @@ function draw() {
   for (const player of players) {
     fill(player.color);
     textLeading(15);
-    text(characterStates.handsUp, player.x, player.y);
+    text(character, player.x, player.y);
   }
 
   // Рисуем все пули
@@ -108,6 +108,7 @@ function draw() {
 
 
 function mousePressed() {
+  character = characterStates.handsUp;
   if (MY_ID === undefined) return;
 
   // Находим текущего игрока по его ID
