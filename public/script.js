@@ -57,43 +57,44 @@ function setup() {
 
 function draw() {
   background(0);
-                                
-  // Рисуем всех игроков
   
+  // Рисуем всех игроков
   for (const player of players) {
-   // console.log(player);
     fill(player.color);
     textLeading(15);
-    //ellipse(player.x, player.y, 20, 20);
-    //textSize(12);
-    text( character, player.x + 22, player.y + 22);
-    
+    text(character, player.x + 22, player.y + 22);
+  }
 
-    
-    textSize(16);
-    text("x", mouseX-8,mouseY-8);
+  // Рисуем все пули
+  if (shoots && shoots.length > 0) {
+    for (let i = shoots.length - 1; i >= 0; i--) {
+      let shoot = shoots[i];
+      let shootPos = createVector(shoot.x, shoot.y);
+      let direction = createVector(shoot.dirX, shoot.dirY);
+      shootPos.add(direction.mult(0.002)); // Перемещаем пулю по направлению
+
+      // Если пуля выходит за пределы экрана, удаляем её
+      if (shootPos.x < 0 || shootPos.x > width || shootPos.y < 0 || shootPos.y > height) {
+        shoots.splice(i, 1);
+      } else {
+        // Рисуем пулю
+        textSize(50);
+        fill(255);
+        text("S", shootPos.x, shootPos.y);
+        
+        // Обновляем координаты пули
+        shoot.x = shootPos.x;
+        shoot.y = shootPos.y;
+      }
+    }
   }
 
   // Отображаем пинг
   fill(200);
   textSize(16);
   text(`Ping: ${ping} ms`, 10, height - 10);
-
-
-  if (shoots && shoots.length > 0) {
-  for (const shoot of shoots) {
-    let shootPos = createVector(shoot.x, shoot.y);
-    let direction = createVector(shoot.dirX, shoot.dirY);
-    shootPos.add(direction.mult(0.002)); // Перемещаем пулю по направлению
-
-    // Рисуем пулю как точку
-    textSize(50);
-    fill(255);
-    text("S", shootPos.x, shootPos.y);
-  }
 }
 
-}
 
 
 
@@ -111,6 +112,14 @@ function mousePressed() {
   let direction = createVector(mouseX - player.x, mouseY - player.y);
   direction.normalize(); // Нормализуем вектор, чтобы выстрел был на одинаковой скорости во всех направлениях
 
+  // Добавляем новый выстрел в массив
+  shoots.push({
+    x: shoot.x,
+    y: shoot.y,
+    dirX: direction.x,
+    dirY: direction.y
+  });
+
   // Отправляем данные о выстреле на сервер
   socket.send(JSON.stringify({
     type: 'shoot',
@@ -120,11 +129,8 @@ function mousePressed() {
     dirX: direction.x,
     dirY: direction.y
   }));
-
-  // Выводим текст "*" в конечной точке на экране
-  let shootDirection = p5.Vector.add(shoot, direction.mult(50)); // Умножаем направление, чтобы получить точку вдали
-  text("*", shootDirection.x, shootDirection.y);
 }
+
 
 
 function keyPressed() {
