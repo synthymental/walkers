@@ -15,11 +15,11 @@ let lastPingTime = 0; // Время отправки последнего соо
 //  / \\
 // `;
 
-const character = "
+const character = `
  \o/\n
   |\n
  / \\n
-";
+`;
 
 function setup() {
   createCanvas(900, 900);
