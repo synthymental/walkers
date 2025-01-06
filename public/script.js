@@ -1,50 +1,40 @@
 let socket;
-let playerId;
-let players = {};
-let velocity; // Используем p5.Vector
-let charSpeed = 5; // Базовая скорость
+let MY_ID = 99999;
+let players = []; 
+let keysPressed = [ 0, 0] // vertical & horizontal & brake
+                                          
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
-let keysPressed = false; 
+
 
 function setup() {
   createCanvas(700, 700);
   background(220);
 
-  velocity = createVector(0, 0); // Инициализация вектора скорости
-
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
 
+  //пинг
   socket.onopen = () => {
     console.log("Соединение установлено");
-
-    // Периодически измеряем пинг
     setInterval(() => {
       lastPingTime = Date.now();
       socket.send(JSON.stringify({ type: "ping" })); // Отправляем ping-запрос на сервер
     }, 1000); // Каждую секунду
   };
 
+  // обработка сообщений от сервера
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
     if (data.type === "init") {
       // Сохраняем ID текущего игрока и список всех существующих игроков
-      playerId = data.id;
+      MY_ID = data.id;
       players = data.players;
+
     } else if (data.type === "update") {
-      // Обновляем положение игрока
-      if (players[data.id]) {
-        players[data.id].x = data.x;
-        players[data.id].y = data.y;
-      } else {
-        // Если игрока ещё нет в списке, добавляем его
-        players[data.id] = { x: data.x, y: data.y, color: data.color };
-      }
-    } else if (data.type === "remove") {
-      // Удаляем игрока из списка
-      delete players[data.id];
+      //обновляем данные игроков
+      players = data.players;
     } else if (data.type === "pong") {
       // Рассчитываем пинг как разницу между текущим временем и временем отправки
       ping = Date.now() - lastPingTime;
@@ -54,35 +44,11 @@ function setup() {
 
 function draw() {
   background(220);
-
-  // Обновляем позицию текущего игрока с учетом вектора скорости
-  if (playerId) {
-    if (players[playerId]) {
-      players[playerId].x += velocity.x;
-      players[playerId].y += velocity.y;
-      
-      players[playerId].x = constrain(players[playerId].x, 10, width - 10);
-      players[playerId].y = constrain(players[playerId].y, 10, height - 10);
-      // Отправляем обновление позиции игрока на сервер
-      socket.send(
-        JSON.stringify({
-          type: "move",
-          id: playerId,
-          dx: velocity.x,
-          dy: velocity.y,
-        })
-      );
-    }
-  }
-
-  if (!keysPressed) {
-    velocity.mult(0.98); // Уменьшаем скорость каждый кадр
-  }
-
-  
+                                
   // Рисуем всех игроков
-  for (const id in players) {
-    const player = players[id];
+  
+  for (const player of players) {
+    console.log(player);
     fill(player.color);
     ellipse(player.x, player.y, 20, 20);
     textSize(12);
@@ -95,21 +61,47 @@ function draw() {
   text(`Ping: ${ping} ms`, 10, height - 10);
 }
 
-function keyPressed() {
-  if (!playerId) return;
-  keysPressed = true;
 
-  // Обновляем вектор скорости в зависимости от нажатой клавиши
-  if (key === "w" || key === "ц" || key === "W") velocity.y = -charSpeed;
-  if (key === "s"|| key === "ы"|| key === "S") velocity.y = charSpeed;
-  if (key === "a"|| key === "ф"|| key === "A") velocity.x = -charSpeed;
-  if (key === "d"|| key === "в"|| key === "D") velocity.x = charSpeed;
+
+
+function keyPressed() {
+  if (!MY_ID) return;
+  if (!"wWцЦaAфФsSыЫdDвВ".includes(key)) return;
+  
+  if      (key === "w" || key === "W" || key === "ц" || key === "Ц") keysPressed[1] --;
+  else if (key === "a" || key === "A" || key === "ф" || key === "Ф") keysPressed[0] --;
+  else if (key === "s" || key === "S" || key === "ы" || key === "Ы") keysPressed[1] ++;
+  else if (key === "d" || key === "D" || key === "в" || key === "В") keysPressed[0] ++;
+
+  socket.send(
+    JSON.stringify({
+      type: "press",
+      id: MY_ID,
+      keys: keysPressed
+    })
+  );
 }
+
+
+
+
+
+
 function keyReleased() {
-keysPressed = false;
+  if (!MY_ID) return;
+  if (!"wWцЦaAфФsSыЫdDвВ".includes(key)) return;
+
+  if      (key === "w" || key === "W" || key === "ц" || key === "Ц") keysPressed[1] ++;
+  else if (key === "a" || key === "A" || key === "ф" || key === "Ф") keysPressed[0] ++;
+  else if (key === "s" || key === "S" || key === "ы" || key === "Ы") keysPressed[1] --;
+  else if (key === "d" || key === "D" || key === "в" || key === "В") keysPressed[0] --;
+
+  socket.send(
+    JSON.stringify({
+      type: "press",
+      id: MY_ID,
+      keys: keysPressed
+    })
+  );
 }
-// // function keyReleased() {
-// //   // Останавливаем движение игрока, когда клавиша отпускается
-// //   if (key === "w" || key === "s") velocity.y = 0;
-// //   if (key === "a" || key === "d") velocity.x = 0;
-// // }
+
