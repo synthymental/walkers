@@ -144,12 +144,15 @@ function mousePressed() {
     }));
   }
       setTimeout(() => {
-      character = characterStates.waving;
+      character = characterStates.handsUp;
     }, 300);
+   setTimeout(() => {
+      character = characterStates.waving;
+    }, 100);
 
     setTimeout(() => {
       character = characterStates.normal;
-    }, 100);
+    }, 500);
 }
 
 
