@@ -174,8 +174,8 @@ function updatePlayersPositions(){
 }
 function updateShotsPositions() {
   for (const shoot of SHOOTS) {
-    shoot.x += shoot.dirX * 10; // Умножаем на скорость
-    shoot.y += shoot.dirY * 10;
+    shoot.x += shoot.dirX * 0.5; // Умножаем на скорость
+    shoot.y += shoot.dirY * 0.5;
 
     // Удаляем выстрелы, если они выходят за экран
     if (shoot.x < 0 || shoot.x > SCREENSIZE || shoot.y < 0 || shoot.y > SCREENSIZE) {
