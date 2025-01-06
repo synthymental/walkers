@@ -3,9 +3,9 @@ let MY_ID = 99999;
 let players = []; 
 let keysPressed = [ 0, 0] ;// vertical & horizontal & brake
 
-let shoot = createVector(0,0);
-let direction = createVector(0,0); 
-let shootDirection = createVector(0,0); 
+let shoot;
+let direction;
+let shootDirection;
 
                                           
 let ping = 0; // Переменная для хранения текущего пинга
@@ -20,6 +20,10 @@ const character = `
 function setup() {
   createCanvas(900, 900);
   background(0);
+
+  shoot = createVector(0,0);
+  direction = createVector(0,0); 
+  lshootDirection = createVector(0,0);
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
@@ -79,14 +83,14 @@ function draw() {
 
 
 
-// function mousePressed(){
+function mousePressed(){
 
-// shoot = createVector(player.x,player.y);
-// direction = createVector(mouseX,mouseY); 
-// shootDirection = shoot.add(direction);
-//   text("*",shootDirection.x,shootDirection.y);
+shoot = createVector(player.x,player.y);
+direction = createVector(mouseX,mouseY); 
+shootDirection = shoot.add(direction);
+  text("*",shootDirection.x,shootDirection.y);
   
-// }
+}
 function keyPressed() {
   if (!MY_ID) return;
   if (!"wWцЦaAфФsSыЫdDвВ".includes(key)) return;
