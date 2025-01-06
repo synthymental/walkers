@@ -45,6 +45,7 @@ function setup() {
       // Сохраняем ID текущего игрока и список всех существующих игроков
       MY_ID = data.id;
       players = data.players;
+      shoots = data.shoots;
 
     } else if (data.type === "update") {
       //обновляем данные игроков
@@ -81,7 +82,14 @@ function draw() {
   text(`Ping: ${ping} ms`, 10, height - 10);
 
 
-  text("*", shootPos.x, shootPos.y);
+  for (const shoot of shoots) {
+    let shootPos = createVector(shoot.x, shoot.y);
+    let direction = createVector(shoot.dirX, shoot.dirY);
+    shootPos.add(direction.mult(50)); // Перемещаем пулю по направлению
+
+    // Рисуем пулю как точку
+    text("*", shootPos.x, shootPos.y);
+  }
 }
 
 
