@@ -101,7 +101,7 @@ function mousePressed() {
   if (!player) return;
 
   // Начальная позиция (точка, откуда будет идти "выстрел")
-  let shoot = createVector(player.x, player.y);
+  let shoot = createVector(player.x, player.y-30);
 
   // Вектор направления (цель мыши относительно игрока)
   let direction = createVector(mouseX - player.x, mouseY - player.y);
