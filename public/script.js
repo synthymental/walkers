@@ -9,17 +9,25 @@ let shoots = [];
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
 
-// const character = `
-//   o
-//  /|\\
-//  / \\
-// `;
+const characterStates = {
+  normal: `
+  o
+ /|\\
+ / \\
+`,
+  handsUp: `
+  \\o/
+   |
+  / \\
+`,
+  waving: `
+   o/
+   |
+  / \\
+`
+};
 
-const character = `
- \o/\n
-  |\n
- / \\n
-`;
+
 
 function setup() {
   createCanvas(900, 900);
@@ -63,7 +71,7 @@ function draw() {
   for (const player of players) {
     fill(player.color);
     textLeading(15);
-    text(character, player.x, player.y);
+    text(characterStates.handsUp, player.x, player.y);
   }
 
   // Рисуем все пули
