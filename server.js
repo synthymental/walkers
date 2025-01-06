@@ -102,13 +102,17 @@ wss.on("connection", (newClient) => {
 
 
 
-//шлем всем регулярные апдейты 
 setInterval(() => {
   updatePlayersPositions();
+  updateShotsPositions(); // Обновляем позиции выстрелов
+
   broadcastAsync({
     type: "update",
-    players: PLAYERS
+    players: PLAYERS,
+    shoots: SHOOTS  // Передаем обновленные выстрелы
   });
+
+  SHOOTS.length = 0;
 }, INTERVAL);
 
 
@@ -166,5 +170,11 @@ function updatePlayersPositions(){
     pl.y = Math.max(0, Math.min(SCREENSIZE, pl.y));
 
     
+  }
+}
+function updateShotsPositions() {
+  for (const shoot of SHOOTS) {
+    shoot.x += shoot.dirX * 10; // Умножаем на скорость
+    shoot.y += shoot.dirY * 10;
   }
 }
