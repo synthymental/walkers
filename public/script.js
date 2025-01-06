@@ -83,14 +83,14 @@ function draw() {
 
 
 
-// function mousePressed(){
+function mousePressed(){
 
-// shoot = createVector(player.x,player.y);
-// direction = createVector(mouseX,mouseY); 
-// shootDirection = shoot.add(direction);
-//   text("*",shootDirection.x,shootDirection.y);
-  
-// }
+shoot = createVector(player.x,player.y);
+direction = createVector(mouseX,mouseY); 
+shootDirection = shoot.add(direction);
+  text("*",shootDirection.x,shootDirection.y);
+  console.log("shoot");
+}
 function keyPressed() {
   if (!MY_ID) return;
   if (!"wWцЦaAфФsSыЫdDвВ".includes(key)) return;
