@@ -96,6 +96,7 @@ function draw() {
         shoot.y = shootPos.y;
       }
     }
+    
   }
 
   // Отображаем пинг
@@ -142,6 +143,7 @@ function mousePressed() {
       dirY: direction.y,
     }));
   }
+  character = characterStates.normal;
 }
 
 
