@@ -84,12 +84,12 @@ function draw() {
   for (const shoot of shoots) {
     let shootPos = createVector(shoot.x, shoot.y);
     let direction = createVector(shoot.dirX, shoot.dirY);
-    shootPos.add(direction.mult(0.2)); // Перемещаем пулю по направлению
+    shootPos.add(direction.mult(0.002)); // Перемещаем пулю по направлению
 
     // Рисуем пулю как точку
-    textSize(30);
+    textSize(50);
     fill(255);
-    text("*", shootPos.x, shootPos.y);
+    text("S", shootPos.x, shootPos.y);
   }
 }
 
