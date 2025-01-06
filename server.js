@@ -178,8 +178,8 @@ function updateShotsPositions() {
   for (let i = SHOOTS.length - 1; i >= 0; i--) {
     const shoot = SHOOTS[i];
     // Increase speed multiplier for more visible movement
-    shoot.x += shoot.dirX * 2; // Increased from 0.5 to 2
-    shoot.y += shoot.dirY * 2; // Increased from 0.5 to 2
+    shoot.x += shoot.dirX * 10; // Increased from 0.5 to 2
+    shoot.y += shoot.dirY * 10; // Increased from 0.5 to 2
 
     // Remove if out of bounds
     if (shoot.x < 0 || shoot.x > SCREENSIZE || 
