@@ -143,7 +143,17 @@ function mousePressed() {
       dirY: direction.y,
     }));
   }
-  character = characterStates.normal;
+      setTimeout(() => {
+      character = characterStates.waving;
+    }, 100);
+
+    setTimeout(() => {
+      character = characterStates.victory;
+    }, 300);
+
+    setTimeout(() => {
+      character = characterStates.normal;
+    }, 500);
 }
 
 
