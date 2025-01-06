@@ -14,7 +14,7 @@ const character = `
 
 function setup() {
   createCanvas(700, 700);
-  background(220);
+  background(0);
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
@@ -48,7 +48,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(0);
                                 
   // Рисуем всех игроков
   
