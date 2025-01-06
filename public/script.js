@@ -16,7 +16,7 @@ const characterStates = {
  / \\
 `,
     normalLeft: `
- o
+  0
  /|\\
  / \\
 `,
