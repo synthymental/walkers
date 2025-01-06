@@ -16,7 +16,7 @@ let lastPingTime = 0; // Время отправки последнего соо
 // `;
 
 const character = `
- \o/
+ \o/\
   |\
  / \\
 `;
