@@ -44,13 +44,14 @@ wss.on("connection", (newClient) => {
   console.log(`Игрок подключился: ${newPlayer.id}`);
 
   // Отправляем новому игроку его ID и список всех игроков
-  newClient.send(
-    JSON.stringify({
-      type: "init",
-      id: newPlayer.id,
-      players: PLAYERS
-    })
-  );
+newClient.send(
+  JSON.stringify({
+    type: "init",
+    id: newPlayer.id,
+    players: PLAYERS,
+    shoots: SHOOTS  // Add this line to send initial shoots state
+  })
+);
 
 
   // обработка сообщений от новичка
