@@ -112,7 +112,7 @@ setInterval(() => {
     shoots: SHOOTS  // Передаем обновленные выстрелы
   });
 
-  SHOOTS.length = 0;
+  //SHOOTS.length = 0;
 }, INTERVAL);
 
 
