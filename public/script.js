@@ -3,9 +3,7 @@ let MY_ID = 99999;
 let players = []; 
 let keysPressed = [ 0, 0] ;// vertical & horizontal & brake
 
-// let shoot;
-// let direction;
-// let shootDirection;
+let shoots = []; 
 
                                           
 let ping = 0; // Переменная для хранения текущего пинга
