@@ -62,7 +62,7 @@ function draw() {
   for (const player of players) {
     fill(player.color);
     textLeading(15);
-    text(character, player.x + 22, player.y + 22);
+    text(character, player.x, player.y);
   }
 
   // Рисуем все пули
@@ -112,24 +112,28 @@ function mousePressed() {
   let direction = createVector(mouseX - player.x, mouseY - player.y);
   direction.normalize(); // Нормализуем вектор, чтобы выстрел был на одинаковой скорости во всех направлениях
 
-  // Добавляем новый выстрел в массив
-  shoots.push({
-    x: shoot.x,
-    y: shoot.y,
-    dirX: direction.x,
-    dirY: direction.y
-  });
+  // Проверяем перед добавлением
+  if (shoot && direction) {
+    // Добавляем новый выстрел в массив
+    shoots.push({
+      x: shoot.x,
+      y: shoot.y,
+      dirX: direction.x,
+      dirY: direction.y,
+    });
 
-  // Отправляем данные о выстреле на сервер
-  socket.send(JSON.stringify({
-    type: 'shoot',
-    id: MY_ID,
-    x: shoot.x,
-    y: shoot.y,
-    dirX: direction.x,
-    dirY: direction.y
-  }));
+    // Отправляем данные о выстреле на сервер
+    socket.send(JSON.stringify({
+      type: 'shoot',
+      id: MY_ID,
+      x: shoot.x,
+      y: shoot.y,
+      dirX: direction.x,
+      dirY: direction.y,
+    }));
+  }
 }
+
 
 
 
