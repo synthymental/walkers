@@ -75,7 +75,7 @@ wss.on("connection", (newClient) => {
     dirX: data.dirX,
     dirY: data.dirY
   });
-
+      }
       
       // Дополнительные типы сообщений можно обработать здесь
     } catch (error) {
