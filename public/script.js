@@ -21,9 +21,9 @@ function setup() {
   createCanvas(900, 900);
   background(0);
 
-  shoot = createVector(0,0);
-  direction = createVector(0,0); 
-  shootDirection = createVector(0,0);
+  // shoot = createVector(0,0);
+  // direction = createVector(0,0); 
+  // shootDirection = createVector(0,0);
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
@@ -62,7 +62,7 @@ function draw() {
   // Рисуем всех игроков
   
   for (const player of players) {
-    console.log(player);
+   // console.log(player);
     fill(player.color);
     textLeading(15);
     //ellipse(player.x, player.y, 20, 20);
