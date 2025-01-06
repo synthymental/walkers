@@ -105,7 +105,7 @@ function mousePressed() {
 
   // Вектор направления (цель мыши относительно игрока)
   let direction = createVector(mouseX - player.x, mouseY - player.y);
-  //direction.normalize(); // Нормализуем вектор, чтобы выстрел был на одинаковой скорости во всех направлениях
+  direction.normalize(); // Нормализуем вектор, чтобы выстрел был на одинаковой скорости во всех направлениях
 
   // Проверяем перед добавлением
   if (shoot && direction) {
