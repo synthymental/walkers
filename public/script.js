@@ -145,11 +145,11 @@ function mousePressed() {
   }
       setTimeout(() => {
       character = characterStates.waving;
-    }, 100);
+    }, 300);
 
     setTimeout(() => {
       character = characterStates.normal;
-    }, 500);
+    }, 100);
 }
 
 
