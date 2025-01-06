@@ -10,6 +10,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 const PLAYERS = [];
+const SHOOTS = [];
 let nextId = 1;
 const charSpeed = 5; // Базовая скорость
 const fps = 60;
@@ -65,15 +66,16 @@ wss.on("connection", (newClient) => {
       } else if (data.type === "ping") {
         // Отправляем ответ на ping-запрос
         newClient.send(JSON.stringify({ type: "pong" }));
-      } else if (data.type === "shoot") {    
-        if (!data.shoots) data.shoots = [];
-        data.shoots.push({
-        id: data.id,
-        x: data.x,
-        y: data.y,
-        dirX: data.dirX,
-        dirY: data.dirY
-    });
+      }  else if (data.type === "shoot") {
+  // Добавляем информацию о выстреле в общий массив
+  SHOOTS.push({
+    id: data.id,
+    x: data.x,
+    y: data.y,
+    dirX: data.dirX,
+    dirY: data.dirY
+  });
+
       
       // Дополнительные типы сообщений можно обработать здесь
     } catch (error) {
