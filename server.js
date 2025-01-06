@@ -65,8 +65,16 @@ wss.on("connection", (newClient) => {
       } else if (data.type === "ping") {
         // Отправляем ответ на ping-запрос
         newClient.send(JSON.stringify({ type: "pong" }));
-      }
-
+      } else if (data.type === "shoot") {    
+        if (!data.shoots) data.shoots = [];
+        data.shoots.push({
+        id: data.id,
+        x: data.x,
+        y: data.y,
+        dirX: data.dirX,
+        dirY: data.dirY
+    });
+      
       // Дополнительные типы сообщений можно обработать здесь
     } catch (error) {
       console.error("Ошибка при обработке сообщения:", error);
