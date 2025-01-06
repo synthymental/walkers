@@ -3,9 +3,9 @@ let MY_ID = 99999;
 let players = []; 
 let keysPressed = [ 0, 0] ;// vertical & horizontal & brake
 
-let shoot;
-let direction;
-let shootDirection;
+// let shoot;
+// let direction;
+// let shootDirection;
 
                                           
 let ping = 0; // Переменная для хранения текущего пинга
@@ -85,9 +85,9 @@ function draw() {
 
 function mousePressed(){
 
-shoot = createVector(player.x,player.y);
-direction = createVector(mouseX,mouseY); 
-shootDirection = p5.Vector.sub(shoot, direction);
+let shoot = createVector(player.x,player.y);
+let direction = createVector(mouseX,mouseY); 
+let shootDirection = p5.Vector.sub(shoot, direction);
   text("*",shootDirection.x,shootDirection.y);
   console.log("shoot");
 }
