@@ -73,7 +73,7 @@ function draw() {
         shoots.splice(i, 1);
       } else {
         // Рисуем пулю
-        textSize(50);
+        textSize(35);
         fill(255);
         text("*", shootPos.x, shootPos.y);
         
@@ -101,7 +101,7 @@ function mousePressed() {
   if (!player) return;
 
   // Начальная позиция (точка, откуда будет идти "выстрел")
-  let shoot = createVector(player.x, player.y-30);
+  let shoot = createVector(player.x, player.y+30);
 
   // Вектор направления (цель мыши относительно игрока)
   let direction = createVector(mouseX - player.x, mouseY - player.y);
