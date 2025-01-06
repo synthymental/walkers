@@ -67,6 +67,7 @@ wss.on("connection", (newClient) => {
         // Отправляем ответ на ping-запрос
         newClient.send(JSON.stringify({ type: "pong" }));
       }  else if (data.type === "shoot") {
+        console.log("Received shoot data:", data);
   // Добавляем информацию о выстреле в общий массив
   SHOOTS.push({
     id: data.id,
