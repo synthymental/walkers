@@ -57,11 +57,7 @@ function draw() {
     fill(player.color);
     //ellipse(player.x, player.y, 20, 20);
     //textSize(12);
-    text( `
-      O
-     /|\\
-     / \\
-`, player.x + 22, player.y + 22);
+    text( character, player.x + 22, player.y + 22);
   }
 
   // Отображаем пинг
