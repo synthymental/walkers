@@ -55,7 +55,7 @@ function draw() {
   for (const player of players) {
     console.log(player);
     fill(player.color);
-    textLeading(5);
+    textLeading(15);
     //ellipse(player.x, player.y, 20, 20);
     //textSize(12);
     text( character, player.x + 22, player.y + 22);
