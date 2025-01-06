@@ -21,7 +21,7 @@ const characterStates = {
   / \\
 `,
   waving: `
-  _o/
+   o/
    |
   / \\
 `
@@ -145,14 +145,14 @@ function mousePressed() {
   }
       setTimeout(() => {
       character = characterStates.handsUp;
-    }, 300);
+    }, 200);
    setTimeout(() => {
       character = characterStates.waving;
     }, 100);
 
     setTimeout(() => {
       character = characterStates.normal;
-    }, 500);
+    }, 400);
 }
 
 
