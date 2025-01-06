@@ -72,7 +72,7 @@ function draw() {
       let shootPos = createVector(shoot.x, shoot.y);
       let direction = createVector(shoot.dirX, shoot.dirY);
       shootPos.add(direction.mult(0.5)); // Перемещаем пулю по направлению
-console.log(shoot[i]);
+
       // Если пуля выходит за пределы экрана, удаляем её
       if (shootPos.x < 0 || shootPos.x > width || shootPos.y < 0 || shootPos.y > height) {
         shoots.splice(i, 1);
