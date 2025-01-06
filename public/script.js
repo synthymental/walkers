@@ -55,9 +55,13 @@ function draw() {
   for (const player of players) {
     console.log(player);
     fill(player.color);
-    ellipse(player.x, player.y, 20, 20);
-    textSize(12);
-    text(character, player.x + 22, player.y + 22);
+    //ellipse(player.x, player.y, 20, 20);
+    //textSize(12);
+    text( `
+  O
+ /|\
+ / \
+`, player.x + 22, player.y + 22);
   }
 
   // Отображаем пинг
