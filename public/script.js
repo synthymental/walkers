@@ -83,14 +83,22 @@ function draw() {
 
 
 
-function mousePressed(){
+function mousePressed() {
+  // Начальная позиция (точка, откуда будет идти "выстрел")
+  let shoot = createVector(player.x, player.y);
 
-let shoot = createVector(player.x,player.y);
-let direction = createVector(mouseX,mouseY); 
-let shootDirection = p5.Vector.sub(shoot, direction);
-  text("*",shootDirection.x,shootDirection.y);
+  // Вектор направления (цель мыши относительно игрока)
+  let direction = createVector(mouseX - player.x, mouseY - player.y);
+
+  // Добавляем начальную позицию и направление для вычисления конечной точки
+  let shootDirection = p5.Vector.add(shoot, direction);
+
+  // Рисуем текст "*" в конечной точке
+  text("*", shootDirection.x, shootDirection.y);
+
   console.log("shoot");
 }
+
 function keyPressed() {
   if (!MY_ID) return;
   if (!"wWцЦaAфФsSыЫdDвВ".includes(key)) return;
