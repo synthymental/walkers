@@ -23,7 +23,7 @@ function setup() {
 
   shoot = createVector(0,0);
   direction = createVector(0,0); 
-  lshootDirection = createVector(0,0);
+  shootDirection = createVector(0,0);
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
