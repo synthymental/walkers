@@ -108,7 +108,7 @@ function setup() {
       );
       console.log("Players array:", players);
     }
-
+    console.log("Players array:", players);
     // Рисуем все пули
     if (shoots && shoots.length > 0) {
       for (let i = shoots.length - 1; i >= 0; i--) {
