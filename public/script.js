@@ -5,7 +5,11 @@ let keysPressed = [ 0, 0] ;// vertical & horizontal & brake
 
 let shoots = []; 
 let idle = true;
-                                          
+let playerStats = {
+  kills: 0,
+  deaths: 0
+};
+
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
 
@@ -53,32 +57,37 @@ function setup() {
   };
 
   // обработка сообщений от сервера
-  socket.onmessage = (event) => {
+socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
 
   if (data.type === "init") {
     MY_ID = data.id;
     players = data.players;
-    shoots = data.shoots || []; // Handle case when shoots are undefined
+    shoots = data.shoots || [];
   } else if (data.type === "update") {
     players = data.players;
-    shoots = data.shoots; // Add this line to sync shoots with server
+    shoots = data.shoots;
+  } else if (data.type === "playerHit") {
+    const hitPlayer = players.find(p => p.id === data.playerId);
+    if (hitPlayer) {
+      hitPlayer.hp = data.hp;
+      if (hitPlayer.id === MY_ID) {
+        playerStats.deaths = data.deaths;
+      }
+    }
+    // Update killer's stats
+    const killer = players.find(p => p.id === data.killerId);
+    if (killer && killer.id === MY_ID) {
+      playerStats.kills = data.kills;
+    }
   } else if (data.type === "pong") {
     ping = Date.now() - lastPingTime;
   }
 };
-}
 
 function draw() {
   background(0);
-  // if(idle){
-  //  setTimeout(() => {
-  //     character = characterStates.hi;
-  //   }, 1100);
-  //  setTimeout(() => {
-  //     character = characterStates.waving;
-  //   }, 1800);
-  // }
+  
   // Рисуем всех игроков
   for (const player of players) {
     fill(player.color);
@@ -86,6 +95,13 @@ function draw() {
     text(character, player.x, player.y);
   }
 
+  const hpWidth = 30;
+    const hpHeight = 5;
+    fill(255, 0, 0); // Red background for HP bar
+    rect(player.x - hpWidth/2, player.y - 30, hpWidth, hpHeight);
+    fill(0, 255, 0); // Green for remaining HP
+    rect(player.x - hpWidth/2, player.y - 30, (player.hp / player.maxHp) * hpWidth, hpHeight);
+  
   // Рисуем все пули
   if (shoots && shoots.length > 0) {
     for (let i = shoots.length - 1; i >= 0; i--) {
@@ -107,9 +123,14 @@ function draw() {
         shoot.x = shootPos.x;
         shoot.y = shootPos.y;
       }
-    }
-    
+    }    
   }
+
+  //stats
+  fill(255);
+  textSize(16);
+  text(`Ping: ${ping} ms`, 10, height - 10);
+  text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
 
   // Отображаем пинг
   fill(200);
