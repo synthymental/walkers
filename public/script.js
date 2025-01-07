@@ -71,14 +71,14 @@ function setup() {
 
 function draw() {
   background(0);
-  if(idle){
-   setTimeout(() => {
-      character = characterStates.hi;
-    }, 1100);
-   setTimeout(() => {
-      character = characterStates.waving;
-    }, 1800);
-  }
+  // if(idle){
+  //  setTimeout(() => {
+  //     character = characterStates.hi;
+  //   }, 1100);
+  //  setTimeout(() => {
+  //     character = characterStates.waving;
+  //   }, 1800);
+  // }
   // Рисуем всех игроков
   for (const player of players) {
     fill(player.color);
