@@ -155,17 +155,8 @@ function setup() {
 
   // }
   function draw() {
-    background(0); // Сброс холста
-    if (!players || players.length === 0) {
-      console.log("No players to draw.");
-      return;
-    }
-  
-    for (let player of players) {
-      console.log(`Drawing player ID: ${player.id}, x: ${player.x}, y: ${player.y}, color: ${player.color}`);
-      fill(player.color || "#FFFFFF"); // Используем белый цвет, если цвет игрока не задан
-      rect(player.x, player.y, 20, 20); // Рисуем квадрат вместо текста
-    }
+    fill(255);
+  rect(mouseX,mouseY,100,100);
   }
   
 
