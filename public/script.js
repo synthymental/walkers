@@ -85,7 +85,8 @@ function setup() {
       ping = Date.now() - lastPingTime;
     }
   };
-  
+}
+
   // function draw() {
   //   background(0);
   //   if (!players) {
@@ -269,4 +270,4 @@ function setup() {
       })
     );
   }
-}
+
