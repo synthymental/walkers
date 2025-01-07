@@ -106,6 +106,7 @@ function setup() {
         (player.hp / player.maxHp) * hpWidth,
         hpHeight
       );
+      console.log("Players array:", players);
     }
 
     // Рисуем все пули
@@ -130,7 +131,7 @@ function setup() {
           shoot.y = shootPos.y;
         }
       }
-      console.log("Players array:", players);
+
     }
 
     //stats
