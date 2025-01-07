@@ -154,7 +154,10 @@ function setup() {
 
   }
 
-
+  function updatePlayers(newPlayers) {
+    players = newPlayers;
+    console.log("Players updated:", players);
+  }
 
 
   function mousePressed() {
