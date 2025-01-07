@@ -94,7 +94,7 @@ function draw() {
 
     fill(player.color);
     textLeading(15);
-    text(character, player.x, player.y);
+    text(character, player.x-20, player.y-20);
     console.log(character + player.x + " " + player.y);
 
     // Рисуем шкалу здоровья
