@@ -105,7 +105,7 @@ function draw() {
     // Рисуем персонажа игрока
 
     fill(player.color);
-    circle(width-10,height-10,20);
+   // circle(width-10,height-10,20);
     textLeading(15);
     text(character, player.x-10, player.y-20);
     
@@ -153,7 +153,7 @@ function draw() {
   fill(255);
   textSize(16);
   text(`Ping: ${ping} ms`, 10, height - 10);
-  text("WASD to move", width-150, height - 10);
+  text("WASD, mouse ClICK", width-130, height - 10);
   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
 
 }
