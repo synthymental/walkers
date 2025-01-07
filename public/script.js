@@ -130,6 +130,7 @@ function setup() {
           shoot.y = shootPos.y;
         }
       }
+      console.log("Players array:", players);
     }
 
     //stats
