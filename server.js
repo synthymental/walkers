@@ -93,7 +93,6 @@ wss.on("connection", (newClient) => {
 });
 
 
-
 setInterval(() => {
   updatePlayersPositions();
   updateShotsPositions(); // Обновляем позиции выстрелов
@@ -106,15 +105,6 @@ setInterval(() => {
 
   //SHOOTS.length = 0;
 }, INTERVAL);
-
-
-
-
-
-
-
-
-
 
 
 // Утилита для асинхронной отправки данных всем клиентам
