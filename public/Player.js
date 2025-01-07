@@ -17,7 +17,7 @@ class Player {
     this.hp -= amount;
     if (this.hp <= 0) {
         this.deaths++;
-        this.hp = 100; // Респавн или сброс HP
+        this.hp = 3; // Респавн или сброс HP
         return true; // Игрок умер
     }
     return false; // Игрок жив
