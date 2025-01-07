@@ -181,7 +181,14 @@ function updateShotsPositions() {
           }
 
           SHOOTS.splice(i, 1);
+          const shooter = PLAYERS.find(p => p.id === shoot.id);
 
+          if (!shooter) {
+              console.warn(`Shooter with ID ${shoot.id} not found. Current SHOOTS:`, JSON.stringify(SHOOTS, null, 2));
+              console.warn(`Current PLAYERS:`, JSON.stringify(PLAYERS, null, 2));
+          } else {
+              console.log(`Shooter found:`, JSON.stringify(shooter, null, 2));
+          }
           // Broadcast the hit
           broadcastAsync({
             type: "playerHit",
