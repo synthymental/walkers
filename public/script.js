@@ -74,7 +74,7 @@ function draw() {
   if(idle){
    setTimeout(() => {
       character = characterStates.hi;
-    }, 100);
+    }, 400);
    setTimeout(() => {
       character = characterStates.waving;
     }, 300);
