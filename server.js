@@ -152,8 +152,12 @@ function updatePlayersPositions() {
   }
 }
 function updateShotsPositions() {
+  console.log("Current SHOOTS before update:", JSON.stringify(SHOOTS, null, 2));
+    console.log("Current PLAYERS before update:", JSON.stringify(PLAYERS, null, 2));
+
   for (let i = SHOOTS.length - 1; i >= 0; i--) {
     const shoot = SHOOTS[i];
+    console.log("Processing shoot:", JSON.stringify(shoot, null, 2));
     shoot.x += shoot.dirX * 10;
     shoot.y += shoot.dirY * 10;
 
