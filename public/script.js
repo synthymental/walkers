@@ -17,8 +17,8 @@ const characterStates = {
 `,
     hi: `
   (o
-  |\\
- / \\
+   |
+  / \\
 `,
   handsUp: `
   \\o/
