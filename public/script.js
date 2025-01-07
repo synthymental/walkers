@@ -161,7 +161,7 @@ function setup() {
       if (!isLooping()) {
         loop(); // Включаем draw(), если он остановлен
       }
-    }, 1000);
+    }, 5000);
   }
 
   function draw() {
