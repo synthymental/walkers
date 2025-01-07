@@ -24,7 +24,7 @@ app.use(express.static("public"));
 
 // когда подключился новенький
 wss.on("connection", (newClient) => {
-  const newPlayer = new Player(nextId, 100, 100); // Use Player class
+  const newPlayer = new Player(nextId, 450, 450); // Use Player class
   nextId++;
   PLAYERS.push(newPlayer);
 
