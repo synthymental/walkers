@@ -38,15 +38,7 @@ const characterStates = {
 
 let character = characterStates.hi;
 
-function loadPlayers() {
-  setTimeout(() => {
-    players = [
-      { id: 1, x: 100, y: 100, color: "#FF0000", hp: 3, maxHp: 3 },
-    ];
-    console.log("Players loaded:", players);
-    loop(); // Включаем отрисовку, если она была остановлена
-  }, 1000);
-}
+
 function setup() {
   createCanvas(900, 900);
   background(0);
@@ -94,7 +86,15 @@ function setup() {
       ping = Date.now() - lastPingTime;
     }
   };
-
+  function loadPlayers() {
+    setTimeout(() => {
+      players = [
+        { id: 1, x: 100, y: 100, color: "#FF0000", hp: 3, maxHp: 3 },
+      ];
+      console.log("Players loaded:", players);
+      loop(); // Включаем отрисовку, если она была остановлена
+    }, 1000);
+  }
   // function draw() {
   //   background(0);
   //   if (!players) {
