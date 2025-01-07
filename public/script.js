@@ -165,7 +165,7 @@ function setup() {
   }
 
   function draw() {
-    background(0);
+   // background(0);
     fill("#FFFFFF");
     rect(100, 100, 50, 50); // Рисуем квадрат в фиксированном месте
     console.log("Draw is running"); // Логируем вызов draw()
