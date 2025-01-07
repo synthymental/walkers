@@ -71,7 +71,12 @@ function setup() {
 
 function draw() {
   background(0);
-  
+   setTimeout(() => {
+      character = characterStates.hi;
+    }, 200);
+   setTimeout(() => {
+      character = characterStates.normal;
+    }, 100);
   // Рисуем всех игроков
   for (const player of players) {
     fill(player.color);
