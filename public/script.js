@@ -42,8 +42,7 @@ let character = characterStates.hi;
 function setup() {
   createCanvas(900, 900);
   background(0);
-  noLoop(); // Отключаем draw() на старте
-  loadPlayers();
+  
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
 
@@ -87,93 +86,78 @@ function setup() {
   };
 }
 
-  // function draw() {
-  //   background(0);
-  //   if (!players) {
-  //     console.log("Players array is undefined or null.");
-  //   } else if (players.length === 0) {
-  //     console.log("Players array is empty.");
-  //   } else {
-  //     for (const player of players) {
-  //       console.log("Player being drawn:", player);
-  //     }
-  //   }
-  //   for (const player of players) {
-  //     // Рисуем персонажа игрока
-      
-  //     console.log("Player being drawn:", player);
-  //     fill(player.color);
-  //     textLeading(15);
-  //     text(character, player.x, player.y);
-  //     console.log(character + player.x +" "+ player.y);
-
-  //     // Рисуем шкалу здоровья
-  //     const hpWidth = 30;
-  //     const hpHeight = 5;
-  //     fill(255, 0, 0); // Красный фон для шкалы здоровья
-  //     rect(player.x - hpWidth / 2, player.y - 30, hpWidth, hpHeight);
-  //     fill(0, 255, 0); // Зелёный цвет для оставшегося здоровья
-  //     rect(
-  //       player.x - hpWidth / 2,
-  //       player.y - 30,
-  //       (player.hp / player.maxHp) * hpWidth,
-  //       hpHeight
-  //     );
-  //     console.log("Players array:", players);
-  //   }
-  //   console.log("Players array:", players);
-  //   // Рисуем все пули
-  //   if (shoots && shoots.length > 0) {
-  //     for (let i = shoots.length - 1; i >= 0; i--) {
-  //       let shoot = shoots[i];
-  //       let shootPos = createVector(shoot.x, shoot.y);
-  //       let direction = createVector(shoot.dirX, shoot.dirY);
-  //       shootPos.add(direction.mult(0.5)); // Перемещаем пулю по направлению
-
-  //       // Если пуля выходит за пределы экрана, удаляем её
-  //       if (shootPos.x < 0 || shootPos.x > width || shootPos.y < 0 || shootPos.y > height) {
-  //         shoots.splice(i, 1);
-  //       } else {
-  //         // Рисуем пулю
-  //         textSize(35);
-  //         fill(255);
-  //         text("*", shootPos.x, shootPos.y);
-
-  //         // Обновляем координаты пули
-  //         shoot.x = shootPos.x;
-  //         shoot.y = shootPos.y;
-  //       }
-  //     }
-
-  //   }
-
-  //   //stats
-  //   fill(255);
-  //   textSize(16);
-  //   text(`Ping: ${ping} ms`, 10, height - 10);
-  //   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
-
-  // }
-
-// ТУТ Я ПЫТАЛСЯ ЗАПУСКАТЬ ДРО ЧУТЬ ПОЗЖЕ, НО ТОЖЕ НЕ ПОМОГЛО
-
-  function loadPlayers() {
-    setTimeout(() => {
-      players = [{ id: 1, x: 100, y: 100, color: "#FF0000", hp: 3, maxHp: 3 }];
-      console.log("Players loaded:", players);
-      loop();
-      if (!isLooping()) {
-        loop(); // Включаем draw(), если он остановлен
-      }
-    }, 5000);
-  }
-
   function draw() {
     background(0);
-    fill("#FFFFFF");
-    rect(100, 100, 50, 50); // Рисуем квадрат в фиксированном месте
-    console.log("Draw is running"); // Логируем вызов draw()
+    // if (!players) {
+    //   console.log("Players array is undefined or null.");
+    // } else if (players.length === 0) {
+    //   console.log("Players array is empty.");
+    // } else {
+    //   for (const player of players) {
+    //     console.log("Player being drawn:", player);
+    //   }
+    // }
+    for (const player of players) {
+      // Рисуем персонажа игрока
+      
+      console.log("Player being drawn:", player);
+      fill(player.color);
+      textLeading(15);
+      text(character, player.x, player.y);
+      console.log(character + player.x +" "+ player.y);
+
+      // Рисуем шкалу здоровья
+      const hpWidth = 30;
+      const hpHeight = 5;
+      fill(255, 0, 0); // Красный фон для шкалы здоровья
+      rect(player.x - hpWidth / 2, player.y - 30, hpWidth, hpHeight);
+      fill(0, 255, 0); // Зелёный цвет для оставшегося здоровья
+      rect(
+        player.x - hpWidth / 2,
+        player.y - 30,
+        (player.hp / player.maxHp) * hpWidth,
+        hpHeight
+      );
+      console.log("Players array:", players);
+    }
+    console.log("Players array:", players);
+    // Рисуем все пули
+    if (shoots && shoots.length > 0) {
+      for (let i = shoots.length - 1; i >= 0; i--) {
+        let shoot = shoots[i];
+        let shootPos = createVector(shoot.x, shoot.y);
+        let direction = createVector(shoot.dirX, shoot.dirY);
+        shootPos.add(direction.mult(0.5)); // Перемещаем пулю по направлению
+
+        // Если пуля выходит за пределы экрана, удаляем её
+        if (shootPos.x < 0 || shootPos.x > width || shootPos.y < 0 || shootPos.y > height) {
+          shoots.splice(i, 1);
+        } else {
+          // Рисуем пулю
+          textSize(35);
+          fill(255);
+          text("*", shootPos.x, shootPos.y);
+
+          // Обновляем координаты пули
+          shoot.x = shootPos.x;
+          shoot.y = shootPos.y;
+        }
+      }
+
+    }
+
+    //stats
+    fill(255);
+    textSize(16);
+    text(`Ping: ${ping} ms`, 10, height - 10);
+    text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
+
   }
+
+
+  
+
+  f
   
   
   
