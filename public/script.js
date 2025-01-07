@@ -91,9 +91,11 @@ function setup() {
 
     for (const player of players) {
       // Рисуем персонажа игрока
+      console.log("Player being drawn:", player);
       fill(player.color);
       textLeading(15);
       text(character, player.x, player.y);
+      console.log(character + player.x +" "+ player.y);
 
       // Рисуем шкалу здоровья
       const hpWidth = 30;
