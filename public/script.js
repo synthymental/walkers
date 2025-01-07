@@ -76,7 +76,7 @@ function draw() {
     }, 200);
    setTimeout(() => {
       character = characterStates.waving;
-    }, 200);
+    }, 300);
   // Рисуем всех игроков
   for (const player of players) {
     fill(player.color);
