@@ -16,8 +16,8 @@ const characterStates = {
  / \\
 `,
     hi: `
- (o
-  |\\
+  o)
+ /|
  / \\
 `,
   handsUp: `
@@ -75,8 +75,8 @@ function draw() {
       character = characterStates.hi;
     }, 200);
    setTimeout(() => {
-      character = characterStates.normal;
-    }, 100);
+      character = characterStates.waving;
+    }, 200);
   // Рисуем всех игроков
   for (const player of players) {
     fill(player.color);
