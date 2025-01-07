@@ -14,10 +14,14 @@ class Player {
   }
 
   takeDamage(amount) {
-    console.log("dmg taken");
     this.hp -= amount;
-    return this.hp <= 0;
-  }
+    if (this.hp <= 0) {
+        this.deaths++;
+        this.hp = 100; // Респавн или сброс HP
+        return true; // Игрок умер
+    }
+    return false; // Игрок жив
+}
 
   respawn(screenSize) {
     console.log("respawned");
