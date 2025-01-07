@@ -42,9 +42,8 @@ let character = characterStates.hi;
 function setup() {
   createCanvas(900, 900);
   background(0);
- 
-  
-
+  noLoop(); // Отключаем draw() на старте
+  loadPlayers();
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
 
@@ -154,6 +153,17 @@ function setup() {
   //   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
 
   // }
+
+  function loadPlayers() {
+    setTimeout(() => {
+      players = [{ id: 1, x: 100, y: 100, color: "#FF0000", hp: 3, maxHp: 3 }];
+      console.log("Players loaded:", players);
+      if (!isLooping()) {
+        loop(); // Включаем draw(), если он остановлен
+      }
+    }, 1000);
+  }
+
   function draw() {
     background(0);
     fill("#FFFFFF");
