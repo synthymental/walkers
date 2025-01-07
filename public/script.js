@@ -64,6 +64,7 @@ function setup() {
       MY_ID = data.id;
       players = data.players;
       shoots = data.shoots || [];
+      console.log("Players received on init:", players);
     } else if (data.type === "update") {
       players = data.players;
       shoots = data.shoots;
