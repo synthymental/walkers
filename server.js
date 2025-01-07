@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
-const Player = require("./Player");
+const Player = require("./public/Player");
 
 
 // Создаем Express приложение
