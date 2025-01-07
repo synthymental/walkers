@@ -15,6 +15,11 @@ const characterStates = {
  /|\\
  / \\
 `,
+    hi: `
+ (o
+  |\\
+ / \\
+`,
   handsUp: `
   \\o/
    |
@@ -27,7 +32,7 @@ const characterStates = {
 `
 };
 
-let character = characterStates.normal;
+let character = characterStates.hi;
 
 function setup() {
   createCanvas(900, 900);
