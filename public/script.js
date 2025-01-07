@@ -42,8 +42,8 @@ let character = characterStates.hi;
 function setup() {
   createCanvas(900, 900);
   background(0);
-  noLoop();
-  loadPlayers();
+ 
+  
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
@@ -86,15 +86,7 @@ function setup() {
       ping = Date.now() - lastPingTime;
     }
   };
-  function loadPlayers() {
-    setTimeout(() => {
-      players = [
-        { id: 1, x: 100, y: 100, color: "#FF0000", hp: 3, maxHp: 3 },
-      ];
-      console.log("Players loaded:", players);
-      loop(); // Включаем отрисовку, если она была остановлена
-    }, 1000);
-  }
+  
   // function draw() {
   //   background(0);
   //   if (!players) {
@@ -163,36 +155,24 @@ function setup() {
 
   // }
   function draw() {
-    background(0);
-  
+    background(0); // Сброс холста
     if (!players || players.length === 0) {
       console.log("No players to draw.");
       return;
     }
   
-    console.log("Drawing players:", players);
-  
     for (const player of players) {
-      console.log("Drawing player:", player);
-  
-      // Рисуем игрока
-      fill(player.color || "#FFFFFF");
-      text("😀", player.x, player.y);
-  
-      // Рисуем шкалу здоровья
-      const hpWidth = 30;
-      const hpHeight = 5;
-      fill(255, 0, 0);
-      rect(player.x - hpWidth / 2, player.y - 30, hpWidth, hpHeight);
-      fill(0, 255, 0);
-      rect(player.x - hpWidth / 2, player.y - 30, (player.hp / player.maxHp) * hpWidth, hpHeight);
+      console.log(`Drawing player ID: ${player.id}, x: ${player.x}, y: ${player.y}, color: ${player.color}`);
+      fill(player.color || "#FFFFFF"); // Используем белый цвет, если цвет игрока не задан
+      rect(player.x, player.y, 20, 20); // Рисуем квадрат вместо текста
     }
   }
+  
 
-  function updatePlayers(newPlayers) {
-    players = newPlayers;
-    console.log("Players updated:", players);
-  }
+  // function updatePlayers(newPlayers) {
+  //   players = newPlayers;
+  //   console.log("Players updated:", players);
+  // }
   function loadPlayers() {
     // Имитируем асинхронную загрузку
     setTimeout(() => {
