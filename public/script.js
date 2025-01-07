@@ -86,72 +86,98 @@ function setup() {
     }
   };
 
+  // function draw() {
+  //   background(0);
+  //   if (!players) {
+  //     console.log("Players array is undefined or null.");
+  //   } else if (players.length === 0) {
+  //     console.log("Players array is empty.");
+  //   } else {
+  //     for (const player of players) {
+  //       console.log("Player being drawn:", player);
+  //     }
+  //   }
+  //   for (const player of players) {
+  //     // Рисуем персонажа игрока
+      
+  //     console.log("Player being drawn:", player);
+  //     fill(player.color);
+  //     textLeading(15);
+  //     text(character, player.x, player.y);
+  //     console.log(character + player.x +" "+ player.y);
+
+  //     // Рисуем шкалу здоровья
+  //     const hpWidth = 30;
+  //     const hpHeight = 5;
+  //     fill(255, 0, 0); // Красный фон для шкалы здоровья
+  //     rect(player.x - hpWidth / 2, player.y - 30, hpWidth, hpHeight);
+  //     fill(0, 255, 0); // Зелёный цвет для оставшегося здоровья
+  //     rect(
+  //       player.x - hpWidth / 2,
+  //       player.y - 30,
+  //       (player.hp / player.maxHp) * hpWidth,
+  //       hpHeight
+  //     );
+  //     console.log("Players array:", players);
+  //   }
+  //   console.log("Players array:", players);
+  //   // Рисуем все пули
+  //   if (shoots && shoots.length > 0) {
+  //     for (let i = shoots.length - 1; i >= 0; i--) {
+  //       let shoot = shoots[i];
+  //       let shootPos = createVector(shoot.x, shoot.y);
+  //       let direction = createVector(shoot.dirX, shoot.dirY);
+  //       shootPos.add(direction.mult(0.5)); // Перемещаем пулю по направлению
+
+  //       // Если пуля выходит за пределы экрана, удаляем её
+  //       if (shootPos.x < 0 || shootPos.x > width || shootPos.y < 0 || shootPos.y > height) {
+  //         shoots.splice(i, 1);
+  //       } else {
+  //         // Рисуем пулю
+  //         textSize(35);
+  //         fill(255);
+  //         text("*", shootPos.x, shootPos.y);
+
+  //         // Обновляем координаты пули
+  //         shoot.x = shootPos.x;
+  //         shoot.y = shootPos.y;
+  //       }
+  //     }
+
+  //   }
+
+  //   //stats
+  //   fill(255);
+  //   textSize(16);
+  //   text(`Ping: ${ping} ms`, 10, height - 10);
+  //   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
+
+  // }
   function draw() {
     background(0);
-    if (!players) {
-      console.log("Players array is undefined or null.");
-    } else if (players.length === 0) {
-      console.log("Players array is empty.");
-    } else {
-      for (const player of players) {
-        console.log("Player being drawn:", player);
-      }
+  
+    if (!players || players.length === 0) {
+      console.log("No players to draw.");
+      return;
     }
+  
+    console.log("Drawing players:", players);
+  
     for (const player of players) {
-      // Рисуем персонажа игрока
-      
-      console.log("Player being drawn:", player);
-      fill(player.color);
-      textLeading(15);
-      text(character, player.x, player.y);
-      console.log(character + player.x +" "+ player.y);
-
+      console.log("Drawing player:", player);
+  
+      // Рисуем игрока
+      fill(player.color || "#FFFFFF");
+      text("😀", player.x, player.y);
+  
       // Рисуем шкалу здоровья
       const hpWidth = 30;
       const hpHeight = 5;
-      fill(255, 0, 0); // Красный фон для шкалы здоровья
+      fill(255, 0, 0);
       rect(player.x - hpWidth / 2, player.y - 30, hpWidth, hpHeight);
-      fill(0, 255, 0); // Зелёный цвет для оставшегося здоровья
-      rect(
-        player.x - hpWidth / 2,
-        player.y - 30,
-        (player.hp / player.maxHp) * hpWidth,
-        hpHeight
-      );
-      console.log("Players array:", players);
+      fill(0, 255, 0);
+      rect(player.x - hpWidth / 2, player.y - 30, (player.hp / player.maxHp) * hpWidth, hpHeight);
     }
-    console.log("Players array:", players);
-    // Рисуем все пули
-    if (shoots && shoots.length > 0) {
-      for (let i = shoots.length - 1; i >= 0; i--) {
-        let shoot = shoots[i];
-        let shootPos = createVector(shoot.x, shoot.y);
-        let direction = createVector(shoot.dirX, shoot.dirY);
-        shootPos.add(direction.mult(0.5)); // Перемещаем пулю по направлению
-
-        // Если пуля выходит за пределы экрана, удаляем её
-        if (shootPos.x < 0 || shootPos.x > width || shootPos.y < 0 || shootPos.y > height) {
-          shoots.splice(i, 1);
-        } else {
-          // Рисуем пулю
-          textSize(35);
-          fill(255);
-          text("*", shootPos.x, shootPos.y);
-
-          // Обновляем координаты пули
-          shoot.x = shootPos.x;
-          shoot.y = shootPos.y;
-        }
-      }
-
-    }
-
-    //stats
-    fill(255);
-    textSize(16);
-    text(`Ping: ${ping} ms`, 10, height - 10);
-    text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
-
   }
 
   function updatePlayers(newPlayers) {
