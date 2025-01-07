@@ -1,6 +1,8 @@
 const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
+const Player = require("./Player"); 
+
 
 // Создаем Express приложение
 const app = express();
@@ -26,32 +28,20 @@ app.use(express.static("public"));
 
 // когда подключился новенький
 wss.on("connection", (newClient) => {
-  //создали ему игрока
-  const newPlayer = {
-    id: nextId,
-    x: 100,
-    y: 100,
-    vel: {
-      x: 0,
-      y: 0
-    },
-    color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-    keysPressed: [0,0]
-  }
-  nextId ++;
+  const newPlayer = new Player(nextId, 100, 100); // Use Player class
+  nextId++;
   PLAYERS.push(newPlayer);
 
   console.log(`Игрок подключился: ${newPlayer.id}`);
 
-  // Отправляем новому игроку его ID и список всех игроков
-newClient.send(
-  JSON.stringify({
-    type: "init",
-    id: newPlayer.id,
-    players: PLAYERS,
-    shoots: SHOOTS  // Add this line to send initial shoots state
-  })
-);
+  newClient.send(
+    JSON.stringify({
+      type: "init",
+      id: newPlayer.id,
+      players: PLAYERS,
+      shoots: SHOOTS
+    })
+  );
 
 
   // обработка сообщений от новичка
@@ -177,13 +167,47 @@ function updatePlayersPositions(){
 function updateShotsPositions() {
   for (let i = SHOOTS.length - 1; i >= 0; i--) {
     const shoot = SHOOTS[i];
-    // Increase speed multiplier for more visible movement
-    shoot.x += shoot.dirX * 10; // Increased from 0.5 to 2
-    shoot.y += shoot.dirY * 10; // Increased from 0.5 to 2
+    shoot.x += shoot.dirX * 10;
+    shoot.y += shoot.dirY * 10;
+
+    // Check for player hits
+    for (const player of PLAYERS) {
+      if (player.id !== shoot.id) { // Don't hit yourself
+        const distance = Math.sqrt(
+          Math.pow(shoot.x - player.x, 2) + 
+          Math.pow(shoot.y - player.y, 2)
+        );
+        
+        if (distance < 20) { // Hit detection radius
+          const isDead = player.takeDamage(1);
+          
+          if (isDead) {
+            const shooter = PLAYERS.find(p => p.id === shoot.id);
+            if (shooter) {
+              shooter.addKill();
+            }
+            player.respawn(SCREENSIZE);
+          }
+
+          SHOOTS.splice(i, 1);
+          
+          // Broadcast the hit
+          broadcastAsync({
+            type: "playerHit",
+            playerId: player.id,
+            hp: player.hp,
+            kills: shooter ? shooter.kills : 0,
+            deaths: player.deaths
+          });
+          
+          break;
+        }
+      }
+    }
 
     // Remove if out of bounds
-    if (shoot.x < 0 || shoot.x > SCREENSIZE || 
-        shoot.y < 0 || shoot.y > SCREENSIZE) {
+    if (shoot && (shoot.x < 0 || shoot.x > SCREENSIZE || 
+        shoot.y < 0 || shoot.y > SCREENSIZE)) {
       SHOOTS.splice(i, 1);
     }
   }
