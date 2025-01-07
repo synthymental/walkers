@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
-const Player = require("./Player"); 
+const Player = require("./Player");
 
 
 // Создаем Express приложение
@@ -57,18 +57,18 @@ wss.on("connection", (newClient) => {
       } else if (data.type === "ping") {
         // Отправляем ответ на ping-запрос
         newClient.send(JSON.stringify({ type: "pong" }));
-      }  else if (data.type === "shoot") {
+      } else if (data.type === "shoot") {
         console.log("Received shoot data:", data);
-  // Добавляем информацию о выстреле в общий массив
-  SHOOTS.push({
-    id: data.id,
-    x: data.x,
-    y: data.y,
-    dirX: data.dirX,
-    dirY: data.dirY
-  });
+        // Добавляем информацию о выстреле в общий массив
+        SHOOTS.push({
+          id: data.id,
+          x: data.x,
+          y: data.y,
+          dirX: data.dirX,
+          dirY: data.dirY
+        });
       }
-      
+
       // Дополнительные типы сообщений можно обработать здесь
     } catch (error) {
       console.error("Ошибка при обработке сообщения:", error);
@@ -108,7 +108,7 @@ setInterval(() => {
 
 
 // Утилита для асинхронной отправки данных всем клиентам
-async function broadcastAsync(data, exclude=null) {
+async function broadcastAsync(data, exclude = null) {
   const message = JSON.stringify(data);
   const sendPromises = [];
 
@@ -133,16 +133,16 @@ server.listen(port, () => {
 });
 
 
-function updatePlayersPositions(){
-  for(const pl of PLAYERS){
+function updatePlayersPositions() {
+  for (const pl of PLAYERS) {
 
     // X
-    if (pl.keysPressed[0] == 0) pl.vel.x *= 0.96; 
+    if (pl.keysPressed[0] == 0) pl.vel.x *= 0.96;
     else pl.vel.x = pl.keysPressed[0] * charSpeed;
     // Y
-    if (pl.keysPressed[1] == 0) pl.vel.y *= 0.96; 
+    if (pl.keysPressed[1] == 0) pl.vel.y *= 0.96;
     else pl.vel.y = pl.keysPressed[1] * charSpeed;
-    
+
 
     pl.x += pl.vel.x;
     pl.y += pl.vel.y;
@@ -150,9 +150,9 @@ function updatePlayersPositions(){
     // Ограничиваем координаты игрока в пределах экрана
     pl.x = Math.max(0, Math.min(SCREENSIZE, pl.x + pl.vel.x));
     pl.y = Math.max(0, Math.min(SCREENSIZE, pl.y + pl.vel.y));
-    
 
-    
+
+
   }
 }
 function updateShotsPositions() {
@@ -165,23 +165,25 @@ function updateShotsPositions() {
     for (const player of PLAYERS) {
       if (player.id !== shoot.id) { // Don't hit yourself
         const distance = Math.sqrt(
-          Math.pow(shoot.x - player.x, 2) + 
+          Math.pow(shoot.x - player.x, 2) +
           Math.pow(shoot.y - player.y, 2)
         );
-        
+
         if (distance < 20) { // Hit detection radius
           const isDead = player.takeDamage(1);
-          
+
           if (isDead) {
             const shooter = PLAYERS.find(p => p.id === shoot.id);
             if (shooter) {
               shooter.addKill();
+            } else {
+              console.warn("Shooter not found for shoot:", shoot);
             }
-            player.respawn(SCREENSIZE);
+
           }
 
           SHOOTS.splice(i, 1);
-          
+
           // Broadcast the hit
           broadcastAsync({
             type: "playerHit",
@@ -190,15 +192,15 @@ function updateShotsPositions() {
             kills: shooter ? shooter.kills : 0,
             deaths: player.deaths
           });
-          
+
           break;
         }
       }
     }
 
     // Remove if out of bounds
-    if (shoot && (shoot.x < 0 || shoot.x > SCREENSIZE || 
-        shoot.y < 0 || shoot.y > SCREENSIZE)) {
+    if (shoot && (shoot.x < 0 || shoot.x > SCREENSIZE ||
+      shoot.y < 0 || shoot.y > SCREENSIZE)) {
       SHOOTS.splice(i, 1);
     }
   }
