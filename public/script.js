@@ -112,7 +112,7 @@ function draw() {
 
     // Рисуем шкалу здоровья
     const hpWidth = 30;
-    const hpHeight = 1;
+    const hpHeight = 2;
     fill(255, 0, 0); // Красный фон для шкалы здоровья
     rect(player.x - hpWidth / 2, player.y - 30, hpWidth, hpHeight);
     fill(0, 255, 0); // Зелёный цвет для оставшегося здоровья
