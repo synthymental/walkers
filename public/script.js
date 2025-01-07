@@ -88,6 +88,7 @@ function setup() {
 
 function draw() {
   background(0);
+  text("x", mouseX+3, mouseY+3);
 
   for (const player of players) {
     // Рисуем персонажа игрока
