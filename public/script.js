@@ -4,7 +4,7 @@ let players = [];
 let keysPressed = [ 0, 0] ;// vertical & horizontal & brake
 
 let shoots = []; 
-
+let idle = true;
                                           
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
@@ -71,12 +71,14 @@ function setup() {
 
 function draw() {
   background(0);
+  if(idle){
    setTimeout(() => {
       character = characterStates.hi;
-    }, 200);
+    }, 100);
    setTimeout(() => {
       character = characterStates.waving;
     }, 300);
+  }
   // Рисуем всех игроков
   for (const player of players) {
     fill(player.color);
@@ -119,6 +121,7 @@ function draw() {
 
 
 function mousePressed() {
+  idle=false;
   character = characterStates.handsUp;
   if (MY_ID === undefined) return;
 
@@ -163,6 +166,9 @@ function mousePressed() {
     setTimeout(() => {
       character = characterStates.normal;
     }, 400);
+  setTimeout(() => {
+      idle=true;
+    }, 5400);
 }
 
 
