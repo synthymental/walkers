@@ -94,8 +94,8 @@ function draw() {
 
     fill(player.color);
     textLeading(15);
-    text(character, player.x-20, player.y-20);
-    console.log(character + player.x + " " + player.y);
+    text(character, player.x-10, player.y-20);
+    
 
     // Рисуем шкалу здоровья
     const hpWidth = 30;
@@ -143,13 +143,6 @@ function draw() {
   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
 
 }
-
-
-
-
-
-
-
 
 
 function mousePressed() {
