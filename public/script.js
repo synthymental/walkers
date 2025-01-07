@@ -161,7 +161,7 @@ function setup() {
       return;
     }
   
-    for (const player of players) {
+    for (let player of players) {
       console.log(`Drawing player ID: ${player.id}, x: ${player.x}, y: ${player.y}, color: ${player.color}`);
       fill(player.color || "#FFFFFF"); // Используем белый цвет, если цвет игрока не задан
       rect(player.x, player.y, 20, 20); // Рисуем квадрат вместо текста
