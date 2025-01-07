@@ -91,6 +91,13 @@ function setup() {
 
     for (const player of players) {
       // Рисуем персонажа игрока
+      if (!players) {
+        console.log("Players array is undefined or null.");
+      } else if (players.length === 0) {
+        console.log("Players array is empty.");
+      } else {
+        for (const player of players) {
+          console.log("Player being drawn:", player);
       console.log("Player being drawn:", player);
       fill(player.color);
       textLeading(15);
