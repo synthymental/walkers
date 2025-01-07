@@ -194,6 +194,7 @@ function updateShotsPositions() {
             type: "playerHit",
             playerId: player.id,
             hp: player.hp,
+            killerId: shooter.id, 
             kills: shooter ? shooter.kills : +1,
             deaths: player.deaths
           });

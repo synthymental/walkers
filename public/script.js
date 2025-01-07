@@ -76,11 +76,22 @@ function setup() {
         }
       }
 
-      if (data.type === "playerHit") {
-        const killer = players.find(p => p.id === data.playerId);
-        if (killer && killer.id === MY_ID) {
-          playerStats.kills = data.kills; // Обновляем счётчик убийств
+      const killer = players.find(p => p.id === data.killerId);
+      if (killer) {
+        // Если убийца найден, обновляем его счётчик убийств
+        killer.kills = data.kills;
+  
+        // Если убийца — текущий игрок, обновляем локальную статистику
+        if (killer.id === MY_ID) {
+          playerStats.kills = data.kills;
         }
+      }
+  
+      // Обновляем информацию о жертве
+      const victim = players.find(p => p.id === data.playerId);
+      if (victim) {
+        victim.hp = data.hp;
+        victim.deaths = data.deaths;
       }
     }
   };
