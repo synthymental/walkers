@@ -75,7 +75,7 @@ socket.onmessage = (event) => {
         playerStats.deaths = data.deaths;
       }
     }
-    // Update killer's stats
+    
     const killer = players.find(p => p.id === data.killerId);
     if (killer && killer.id === MY_ID) {
       playerStats.kills = data.kills;
