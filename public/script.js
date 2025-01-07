@@ -154,10 +154,13 @@ function setup() {
 
   // }
 
+// ТУТ Я ПЫТАЛСЯ ЗАПУСКАТЬ ДРО ЧУТЬ ПОЗЖЕ, НО ТОЖЕ НЕ ПОМОГЛО
+
   function loadPlayers() {
     setTimeout(() => {
       players = [{ id: 1, x: 100, y: 100, color: "#FF0000", hp: 3, maxHp: 3 }];
       console.log("Players loaded:", players);
+      loop();
       if (!isLooping()) {
         loop(); // Включаем draw(), если он остановлен
       }
@@ -165,7 +168,7 @@ function setup() {
   }
 
   function draw() {
-   // background(0);
+    background(0);
     fill("#FFFFFF");
     rect(100, 100, 50, 50); // Рисуем квадрат в фиксированном месте
     console.log("Draw is running"); // Логируем вызов draw()
