@@ -153,7 +153,7 @@ function draw() {
   fill(255);
   textSize(16);
   text(`Ping: ${ping} ms`, 10, height - 10);
-  text("WASD, mouse ClICK", width-130, height - 10);
+  text("WASD, mouse ClICK", width-150, height - 10);
   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
 
 }
