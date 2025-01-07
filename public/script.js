@@ -74,7 +74,7 @@ function draw() {
   if(idle){
    setTimeout(() => {
       character = characterStates.hi;
-    }, 500);
+    }, 100);
    setTimeout(() => {
       character = characterStates.waving;
     }, 800);
@@ -175,6 +175,7 @@ function mousePressed() {
 
 
 function keyPressed() {
+  idle=false;
   if (!MY_ID) return;
   if (!"wWцЦaAфФsSыЫdDвВ".includes(key)) return;
   
@@ -190,6 +191,9 @@ function keyPressed() {
       keys: keysPressed
     })
   );
+   setTimeout(() => {
+      idle=true;
+    }, 5400);
 }
 
 
@@ -198,6 +202,7 @@ function keyPressed() {
 
 
 function keyReleased() {
+  idle=false;
   if (!MY_ID) return;
   if (!"wWцЦaAфФsSыЫdDвВ".includes(key)) return;
 
@@ -213,5 +218,8 @@ function keyReleased() {
       keys: keysPressed
     })
   );
+   setTimeout(() => {
+      idle=true;
+    }, 5400);
 }
 
