@@ -88,20 +88,26 @@ socket.onmessage = (event) => {
 function draw() {
   background(0);
   
-  // Рисуем всех игроков
   for (const player of players) {
-    fill(player.color);
-    textLeading(15);
-    text(character, player.x, player.y);
-  }
+  // Рисуем персонажа игрока
+  fill(player.color);
+  textLeading(15);
+  text(character, player.x, player.y);
 
+  // Рисуем шкалу здоровья
   const hpWidth = 30;
-    const hpHeight = 5;
-    fill(255, 0, 0); // Red background for HP bar
-    rect(player.x - hpWidth/2, player.y - 30, hpWidth, hpHeight);
-    fill(0, 255, 0); // Green for remaining HP
-    rect(player.x - hpWidth/2, player.y - 30, (player.hp / player.maxHp) * hpWidth, hpHeight);
-  
+  const hpHeight = 5;
+  fill(255, 0, 0); // Красный фон для шкалы здоровья
+  rect(player.x - hpWidth / 2, player.y - 30, hpWidth, hpHeight);
+  fill(0, 255, 0); // Зелёный цвет для оставшегося здоровья
+  rect(
+    player.x - hpWidth / 2,
+    player.y - 30,
+    (player.hp / player.maxHp) * hpWidth,
+    hpHeight
+  );
+}
+
   // Рисуем все пули
   if (shoots && shoots.length > 0) {
     for (let i = shoots.length - 1; i >= 0; i--) {
@@ -132,10 +138,6 @@ function draw() {
   text(`Ping: ${ping} ms`, 10, height - 10);
   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
 
-  // Отображаем пинг
-  fill(200);
-  textSize(16);
-  text(`Ping: ${ping} ms`, 10, height - 10);
 }
 
 
@@ -213,10 +215,6 @@ function keyPressed() {
     })
   );
 }
-
-
-
-
 
 
 function keyReleased() {
