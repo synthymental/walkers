@@ -16,8 +16,8 @@ const characterStates = {
  / \\
 `,
     hi: `
-  o)
- /|
+  (o
+  |\\
  / \\
 `,
   handsUp: `
@@ -26,7 +26,7 @@ const characterStates = {
   / \\
 `,
   waving: `
-   o/
+  \\o
    |
   / \\
 `
