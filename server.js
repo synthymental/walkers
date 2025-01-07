@@ -162,7 +162,7 @@ function updateShotsPositions() {
       if (player.id !== shoot.id) { // Don't hit yourself
         const distance = Math.sqrt(
           Math.pow(shoot.x - player.x, 2) +
-          Math.pow(shoot.y - player.y, 2)
+          Math.pow(shoot.y - player.y+10, 2)
         );
 
         if (distance < 25) { // Hit detection radius
