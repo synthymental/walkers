@@ -170,12 +170,11 @@ function updateShotsPositions() {
 
           if (isDead) {
             const shooter = PLAYERS.find(p => p.id === shoot.id);
-            if (shooter) {
-              shooter.addKill();
-            } else {
+            if (!shooter) {
               console.warn("Shooter not found for shoot:", shoot);
+            } else {
+              shooter.addKill();
             }
-
           }
 
           SHOOTS.splice(i, 1);
