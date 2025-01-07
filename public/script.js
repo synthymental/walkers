@@ -141,6 +141,7 @@ function draw() {
   fill(255);
   textSize(16);
   text(`Ping: ${ping} ms`, 10, height - 10);
+  text("WASD to move", width-10, height - 10);
   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
 
 }
