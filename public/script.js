@@ -76,12 +76,12 @@ function setup() {
         }
       }
 
-      const killer = players.find(p => p.id === data.killerId);
-      if (killer && killer.id === MY_ID) {
-        playerStats.kills = data.kills;
+      if (data.type === "playerHit") {
+        const killer = players.find(p => p.id === data.playerId);
+        if (killer && killer.id === MY_ID) {
+          playerStats.kills = data.kills; // Обновляем счётчик убийств
+        }
       }
-    } else if (data.type === "pong") {
-      ping = Date.now() - lastPingTime;
     }
   };
 }
