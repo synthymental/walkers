@@ -98,6 +98,8 @@ function setup() {
       } else {
         for (const player of players) {
           console.log("Player being drawn:", player);
+        }
+      }
       console.log("Player being drawn:", player);
       fill(player.color);
       textLeading(15);
