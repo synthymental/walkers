@@ -155,25 +155,14 @@ function setup() {
 
   // }
   function draw() {
-    fill(255);
-  rect(mouseX,mouseY,100,100);
+    background(0);
+    fill("#FFFFFF");
+    rect(100, 100, 50, 50); // Рисуем квадрат в фиксированном месте
+    console.log("Draw is running"); // Логируем вызов draw()
   }
   
-
-  // function updatePlayers(newPlayers) {
-  //   players = newPlayers;
-  //   console.log("Players updated:", players);
-  // }
-  function loadPlayers() {
-    // Имитируем асинхронную загрузку
-    setTimeout(() => {
-      players = [
-        { id: 1, x: 100, y: 100, color: "#FF0000", hp: 3, maxHp: 3 },
-        // Добавьте других игроков
-      ];
-      console.log("Players loaded:", players);
-    }, 1000);
-  }
+  
+  
 
   function mousePressed() {
     idle = false;
