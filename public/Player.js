@@ -14,11 +14,13 @@ class Player {
   }
 
   takeDamage(amount) {
+    console.log("dmg taken");
     this.hp -= amount;
     return this.hp <= 0;
   }
 
   respawn(screenSize) {
+    console.log("respawned");
     this.hp = this.maxHp;
     this.x = Math.random() * screenSize;
     this.y = Math.random() * screenSize;

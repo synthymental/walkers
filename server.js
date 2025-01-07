@@ -14,16 +14,12 @@ const wss = new WebSocket.Server({ server });
 const PLAYERS = [];
 const SHOOTS = [];
 let nextId = 1;
-const charSpeed = 5; // Базовая скорость
+const charSpeed = 3; // Базовая скорость
 const fps = 60;
 const INTERVAL = 1000 / fps;
 const SCREENSIZE = 900;
 
 app.use(express.static("public"));
-
-
-
-
 
 
 // когда подключился новенький
@@ -169,7 +165,7 @@ function updateShotsPositions() {
           Math.pow(shoot.y - player.y, 2)
         );
 
-        if (distance < 20) { // Hit detection radius
+        if (distance < 25) { // Hit detection radius
           const isDead = player.takeDamage(1);
 
           if (isDead) {
