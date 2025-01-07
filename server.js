@@ -148,8 +148,9 @@ function updatePlayersPositions(){
     pl.y += pl.vel.y;
 
     // Ограничиваем координаты игрока в пределах экрана
-    pl.x = Math.max(0, Math.min(SCREENSIZE, pl.x));
-    pl.y = Math.max(0, Math.min(SCREENSIZE, pl.y));
+    pl.x = Math.max(0, Math.min(SCREENSIZE, pl.x + pl.vel.x));
+    pl.y = Math.max(0, Math.min(SCREENSIZE, pl.y + pl.vel.y));
+    
 
     
   }
