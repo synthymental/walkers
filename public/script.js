@@ -42,7 +42,7 @@ function setup() {
   createCanvas(900, 900);
   background(0);
 
-  ;
+  loadPlayers();
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
@@ -158,7 +158,16 @@ function setup() {
     players = newPlayers;
     console.log("Players updated:", players);
   }
-
+  function loadPlayers() {
+    // Имитируем асинхронную загрузку
+    setTimeout(() => {
+      players = [
+        { id: 1, x: 100, y: 100, color: "#FF0000", hp: 3, maxHp: 3 },
+        // Добавьте других игроков
+      ];
+      console.log("Players loaded:", players);
+    }, 1000);
+  }
 
   function mousePressed() {
     idle = false;
