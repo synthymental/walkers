@@ -42,6 +42,8 @@ let character = characterStates.hi;
 function setup() {
   createCanvas(900, 900);
   background(0);
+  mapGenerator();
+
 
   // Подключение к WebSocket
   socket = new WebSocket(window.location.origin.replace(/^http/, "ws"));
@@ -80,13 +82,13 @@ function setup() {
       if (killer) {
         // Если убийца найден, обновляем его счётчик убийств
         killer.kills = data.kills;
-  
+
         // Если убийца — текущий игрок, обновляем локальную статистику
         if (killer.id === MY_ID) {
           playerStats.kills = data.kills;
         }
       }
-  
+
       // Обновляем информацию о жертве
       const victim = players.find(p => p.id === data.playerId);
       if (victim) {
@@ -98,17 +100,17 @@ function setup() {
 }
 
 function draw() {
-  background(0);
-  text("x", mouseX+3, mouseY+3);
+  //background(0);
+  text("x", mouseX + 3, mouseY + 3);
 
   for (const player of players) {
     // Рисуем персонажа игрока
 
     fill(player.color);
-   // circle(width-10,height-10,20);
+    // circle(width-10,height-10,20);
     textLeading(15);
-    text(character, player.x-10, player.y-20);
-    
+    text(character, player.x - 10, player.y - 20);
+
 
     // Рисуем шкалу здоровья
     const hpWidth = 30;
@@ -153,7 +155,7 @@ function draw() {
   fill(255);
   textSize(16);
   text(`Ping: ${ping} ms`, 10, height - 10);
-  text("WASD, mouse ClICK", width-170, height - 10);
+  text("WASD, mouse ClICK", width - 170, height - 10);
   text(`Kills: ${playerStats.kills}  Deaths: ${playerStats.deaths}`, 10, height - 30);
 
 }
@@ -252,3 +254,10 @@ function keyReleased() {
   );
 }
 
+function mapGenerator() {
+  fill(100);
+  for (let i = 0; i == 30; i++)
+    text("-", random(0, width), random(0, height));
+    text(".", random(0, width), random(0, height));
+
+}
