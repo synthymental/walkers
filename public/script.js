@@ -261,12 +261,12 @@ function keyReleased() {
 
 // Генерация карты с элементами
 function mapGenerator() {
-  const numElements = 100; // Количество элементов карты
+  const numElements = 50; // Количество элементов карты
   for (let i = 0; i < numElements; i++) {
     // Случайное размещение символов
     const x = random(width);
     const y = random(height);
-    const elementType = random(1) > 0.8 ? "-" : (random(1) > 0.5 ? "." : "o");
+    const elementType = random(1) > 0.8 ? "-" : (random(1) > 0.5 ? "." : "^");
 
     mapElements.push({ x, y, type: elementType });
   }
@@ -274,7 +274,7 @@ function mapGenerator() {
 
 // Отрисовка карты
 function drawMap() {
-  fill(100);
+  fill(50);
   textSize(15);
   for (const element of mapElements) {
     text(element.type, element.x, element.y);
