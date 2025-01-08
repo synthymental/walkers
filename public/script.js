@@ -256,8 +256,9 @@ function keyReleased() {
 
 function mapGenerator() {
   fill(100);
-  for (let i = 0; i == 30; i++)
+  for (let i = 0; i == 30; i++){
     text("-", random(0, width), random(0, height));
     text(".", random(0, width), random(0, height));
+  }
 
 }
