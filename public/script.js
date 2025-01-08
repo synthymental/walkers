@@ -274,9 +274,11 @@ function mapGenerator() {
 
 // Отрисовка карты
 function drawMap() {
+  push();
   fill(80);
   textSize(15);
   for (const element of mapElements) {
     text(element.type, element.x, element.y);
   }
+  pop();
 }
