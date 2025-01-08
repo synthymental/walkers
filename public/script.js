@@ -13,6 +13,8 @@ let playerStats = {
 let ping = 0; // Переменная для хранения текущего пинга
 let lastPingTime = 0; // Время отправки последнего сообщения для измерения пинга
 
+let mapElements = [];
+
 const characterStates = {
   normal: `
   o
@@ -100,7 +102,10 @@ function setup() {
 }
 
 function draw() {
-  //background(0);
+  background(0);
+
+  drawMap();
+
   text("x", mouseX + 3, mouseY + 3);
 
   for (const player of players) {
@@ -254,11 +259,24 @@ function keyReleased() {
   );
 }
 
+// Генерация карты с элементами
 function mapGenerator() {
-  fill(100);
-  for (let i = 0; i == 30; i++){
-    text("-", random(0, width), random(0, height));
-    text(".", random(0, width), random(0, height));
-  }
+  const numElements = 100; // Количество элементов карты
+  for (let i = 0; i < numElements; i++) {
+    // Случайное размещение символов
+    const x = random(width);
+    const y = random(height);
+    const elementType = random(1) > 0.8 ? "-" : (random(1) > 0.5 ? "." : "o");
 
+    mapElements.push({ x, y, type: elementType });
+  }
+}
+
+// Отрисовка карты
+function drawMap() {
+  fill(100);
+  textSize(15);
+  for (const element of mapElements) {
+    text(element.type, element.x, element.y);
+  }
 }
