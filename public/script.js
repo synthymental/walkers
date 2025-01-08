@@ -261,7 +261,7 @@ function keyReleased() {
 
 // Генерация карты с элементами
 function mapGenerator() {
-  const numElements = 50; // Количество элементов карты
+  const numElements = 80; // Количество элементов карты
   for (let i = 0; i < numElements; i++) {
     // Случайное размещение символов
     const x = random(width);
@@ -274,7 +274,7 @@ function mapGenerator() {
 
 // Отрисовка карты
 function drawMap() {
-  fill(50);
+  fill(80);
   textSize(15);
   for (const element of mapElements) {
     text(element.type, element.x, element.y);
